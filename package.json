@@ -1,0 +1,19 @@
+{
+  "name": "is-funcs",
+  "version": "0.0.0",
+  "description": "A very limited subset of type checking functions I use every day",
+  "repository": "jeromedecoster/is-funcs",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "type",
+    "check"
+  ],
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
