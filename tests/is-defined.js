@@ -1,0 +1,62 @@
+
+const fn = require('..').isDefined
+const test = require('tape')
+
+test('default behavior', function (t) {
+
+  var a1 = new Array(1)
+  var o1 = new Object()
+  o1.a = 2
+  var o2 = Object.create(null)
+  o2.a = 3
+  var noop = function() {}
+  var s1 = new String('abc')
+
+  t.deepEqual(fn(2),         true)
+  t.deepEqual(fn(-1),        true)
+  t.deepEqual(fn(-1.1),      true)
+  t.deepEqual(fn(-0.01),     true)
+  t.deepEqual(fn(0.01),      true)
+  t.deepEqual(fn(0),         true)
+  t.deepEqual(fn(1),         true)
+  t.deepEqual(fn(1.1),       true)
+  t.deepEqual(fn(-0),        true)
+  t.deepEqual(fn(12),        true)
+  t.deepEqual(fn(Number.NEGATIVE_INFINITY), true)
+  t.deepEqual(fn(Number.POSITIVE_INFINITY), true)
+  t.deepEqual(fn(true),      true)
+  t.deepEqual(fn(false),     true)
+  t.deepEqual(fn([1]),       true)
+  t.deepEqual(fn(a1),        true)
+  t.deepEqual(fn('abc'),     true)
+  t.deepEqual(fn(' a '),     true)
+  t.deepEqual(fn({a:1}),     true)
+  t.deepEqual(fn(o1),        true)
+  t.deepEqual(fn(o2),        true)
+  t.deepEqual(fn(s1),        true)
+  t.deepEqual(fn(/./),       true)
+  t.deepEqual(fn(noop),      true)
+  t.deepEqual(fn(Math),      true)
+  t.deepEqual(fn(new Date),  true)
+  t.deepEqual(fn(arguments), true)
+
+  var a2 = new Array(0)
+  var o3 = new Object()
+  var o4 = Object.create(null)
+  var s2 = new String('')
+  var s3 = new String('  ')
+
+  t.deepEqual(fn(NaN),       false)
+  t.deepEqual(fn(o3),        false)
+  t.deepEqual(fn(o4),        false)
+  t.deepEqual(fn([]),        false)
+  t.deepEqual(fn(a2),        false)
+  t.deepEqual(fn(''),        false)
+  t.deepEqual(fn(' '),       false)
+  t.deepEqual(fn(s2),        false)
+  t.deepEqual(fn(s3),        false)
+  t.deepEqual(fn(null),      false)
+  t.deepEqual(fn(undefined), false)
+  t.deepEqual(fn(),          false)
+  t.end()
+})
