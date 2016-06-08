@@ -33,6 +33,7 @@ const isObject = require('is-funcs/is-object')
 * [isInteger](#isintegerdata)
 * [isLt](#isltdata-than)
 * [isLte](#isltedata-than)
+* [isNaN](#isnandata)
 * [isNode](#isnodedata)
 * [isNumber](#isnumberdata-check)
 * [isObject](#isobjectdata-check)
@@ -260,6 +261,26 @@ isLte(2, 2)
 
 // false
 isLte(3, 2)
+```
+
+#### isNaN(data)
+
+Check if `data` is a **real** `NaN` **Number**
+
+```js
+const isnan = require('is-funcs/is-nan')
+
+// true
+isnan(NaN)
+
+// true
+isnan(new Number(NaN))
+
+// false
+isnan('abc')
+
+// default isNaN return true
+isNaN('abc')
 ```
 
 #### isNode(data)

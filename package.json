@@ -1,6 +1,6 @@
 {
   "name": "is-funcs",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A very limited subset of type checking functions I use every day",
   "repository": "jeromedecoster/is-funcs",
   "main": "index.js",
@@ -16,6 +16,7 @@
     "is-integer.js",
     "is-lt.js",
     "is-lte.js",
+    "is-nan.js",
     "is-node.js",
     "is-number.js",
     "is-object.js",
@@ -24,7 +25,22 @@
   ],
   "keywords": [
     "type",
-    "check"
+    "check",
+    "is-array",
+    "is-boolean",
+    "is-defined",
+    "is-float",
+    "is-function",
+    "is-gt",
+    "is-gte",
+    "is-integer",
+    "is-lt",
+    "is-lte",
+    "is-nan",
+    "is-node",
+    "is-number",
+    "is-object",
+    "is-string"
   ],
   "author": {
     "name": "Jérôme Decoster",
@@ -33,7 +49,7 @@
   "license": "MIT",
   "scripts": {
     "start": "budo src/index.js:bundle.js --dir src --host localhost --port 3000 --no-debug",
-    "dev": "chokidar 'index.js' 'is-*.js' 'tests/*.js' -c 'npm run test'",
+    "dev": "chokidar '*.js' 'tests/*.js' -c 'npm run test'",
     "test": "tape tests/*.js | tap-spec || true"
   },
   "devDependencies": {
