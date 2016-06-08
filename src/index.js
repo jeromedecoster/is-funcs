@@ -1,6 +1,6 @@
 
-const isNode = require('..').isNode
-const is = require('..').is
+const isNode = require('../is-node')
+const is = require('../is')
 
 const body = document.querySelector('body')
 

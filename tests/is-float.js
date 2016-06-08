@@ -1,11 +1,13 @@
-
-const fn = require('..').isFloat
+const fn = require('../is-float')
 const test = require('tape')
 
 test('default behavior', function (t) {
 
+  var n1 = new Number(12.3)
+
   t.deepEqual(fn(-1.1),      true)
   t.deepEqual(fn(1.1),       true)
+  t.deepEqual(fn(n1),        true)
 
   var a1 = new Array(1)
   var a2 = new Array(0)
@@ -19,7 +21,11 @@ test('default behavior', function (t) {
   var s1 = new String('abc')
   var s2 = new String('')
   var s3 = new String('  ')
+  var n2 = new Number(12)
+  var n3 = new Number(NaN)
 
+  t.deepEqual(fn(n2),        false)
+  t.deepEqual(fn(n3),        false)
   t.deepEqual(fn(12),        false)
   t.deepEqual(fn(-1),        false)
   t.deepEqual(fn(0),         false)

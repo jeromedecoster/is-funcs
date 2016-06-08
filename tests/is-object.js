@@ -1,5 +1,4 @@
-
-const fn = require('..').isObject
+const fn = require('../is-object')
 const test = require('tape')
 
 test('default behavior', function (t) {
@@ -19,7 +18,19 @@ test('default behavior', function (t) {
   var s1 = new String('abc')
   var s2 = new String('')
   var s3 = new String('  ')
+  var Foo = function() {}
+  Foo.prototype.test = function() {}
+  var f1 = new Foo()
+  var n1 = new Number(12)
+  var n2 = new Number(12.3)
+  var n3 = new Number(NaN)
 
+  t.deepEqual(fn(n1),        false)
+  t.deepEqual(fn(n2),        false)
+  t.deepEqual(fn(n3),        false)
+  t.deepEqual(fn(f1),        false)
+  t.deepEqual(fn(f1.test),   false)
+  t.deepEqual(fn(Foo.prototype.test), false)
   t.deepEqual(fn(o3),        false)
   t.deepEqual(fn(o4),        false)
   t.deepEqual(fn(s1),        false)

@@ -1,5 +1,4 @@
-
-const fn = require('..').isArray
+const fn = require('../is-array')
 const test = require('tape')
 
 test('default behavior', function (t) {

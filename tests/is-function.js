@@ -1,12 +1,17 @@
-
-const fn = require('..').isFunction
+const fn = require('../is-function')
 const test = require('tape')
 
 test('default behavior', function (t) {
 
   var noop = function() {}
+  var Foo = function() {}
+  Foo.prototype.test = function() {}
+  var f1 = new Foo()
 
-  t.deepEqual(fn(noop), true)
+  t.deepEqual(fn(noop),     true)
+  t.deepEqual(fn(Math.max), true)
+  t.deepEqual(fn(f1.test),   true)
+  t.deepEqual(fn(Foo.prototype.test), true)
 
   var a1 = new Array(1)
   var a2 = new Array(0)
@@ -19,7 +24,11 @@ test('default behavior', function (t) {
   var s1 = new String('abc')
   var s2 = new String('')
   var s3 = new String('  ')
+  var f2 = new Foo()
+  f2.constructor = Object
 
+  t.deepEqual(fn(f1),        false)
+  t.deepEqual(fn(f2),        false)
   t.deepEqual(fn(12),        false)
   t.deepEqual(fn(-1),        false)
   t.deepEqual(fn(0),         false)

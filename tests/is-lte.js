@@ -1,9 +1,12 @@
-
-const fn = require('..').isLte
+const fn = require('../is-lte')
 const test = require('tape')
 
 test('default behavior', function (t) {
 
+  var n1 = new Number(2)
+  var n2 = new Number(2)
+
+  t.deepEqual(fn(n1, n2),   true)
   t.deepEqual(fn(2, 2),     true)
   t.deepEqual(fn(-1, 2),    true)
   t.deepEqual(fn(-1.1, 2),  true)
@@ -27,7 +30,12 @@ test('default behavior', function (t) {
   var s1 = new String('abc')
   var s2 = new String('')
   var s3 = new String('  ')
+  var n3 = new Number(-1)
+  var n4 = new Number(-2)
+  var n5 = new Number(NaN)
 
+  t.deepEqual(fn(n3, n4),        false)
+  t.deepEqual(fn(n3, n5),        false)
   t.deepEqual(fn(-1, -2),        false)
   t.deepEqual(fn(NaN, NaN),      false)
   t.deepEqual(fn(-1, NaN),       false)

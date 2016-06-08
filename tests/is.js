@@ -1,5 +1,4 @@
-
-const fn = require('..').is
+const fn = require('../is')
 const test = require('tape')
 
 test('default behavior', function (t) {

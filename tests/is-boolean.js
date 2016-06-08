@@ -1,5 +1,4 @@
-
-const fn = require('..').isBoolean
+const fn = require('../is-boolean')
 const test = require('tape')
 
 test('default behavior', function (t) {

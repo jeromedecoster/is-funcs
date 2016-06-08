@@ -1,5 +1,4 @@
-
-const fn = require('..').isNode
+const fn = require('../is-node')
 const test = require('tape')
 
 test('default behavior', function (t) {

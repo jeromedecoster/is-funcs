@@ -1,5 +1,4 @@
-
-const fn = require('..').isDefined
+const fn = require('../is-defined')
 const test = require('tape')
 
 test('default behavior', function (t) {
@@ -11,6 +10,8 @@ test('default behavior', function (t) {
   o2.a = 3
   var noop = function() {}
   var s1 = new String('abc')
+  var n1 = new Number(12)
+  var n2 = new Number(12.3)
 
   t.deepEqual(fn(2),         true)
   t.deepEqual(fn(-1),        true)
@@ -39,12 +40,15 @@ test('default behavior', function (t) {
   t.deepEqual(fn(Math),      true)
   t.deepEqual(fn(new Date),  true)
   t.deepEqual(fn(arguments), true)
+  t.deepEqual(fn(n1),        true)
+  t.deepEqual(fn(n2),        true)
 
   var a2 = new Array(0)
   var o3 = new Object()
   var o4 = Object.create(null)
   var s2 = new String('')
   var s3 = new String('  ')
+  var n3 = new Number(NaN)
 
   t.deepEqual(fn(NaN),       false)
   t.deepEqual(fn(o3),        false)
@@ -55,6 +59,7 @@ test('default behavior', function (t) {
   t.deepEqual(fn(' '),       false)
   t.deepEqual(fn(s2),        false)
   t.deepEqual(fn(s3),        false)
+  t.deepEqual(fn(n3),        false)
   t.deepEqual(fn(null),      false)
   t.deepEqual(fn(undefined), false)
   t.deepEqual(fn(),          false)

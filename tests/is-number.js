@@ -1,9 +1,13 @@
-
-const fn = require('..').isNumber
+const fn = require('../is-number')
 const test = require('tape')
 
 test('default behavior', function (t) {
 
+  var n1 = new Number(12)
+  var n2 = new Number(12.3)
+
+  t.deepEqual(fn(n1),   true)
+  t.deepEqual(fn(n2),   true)
   t.deepEqual(fn(-1.1), true)
   t.deepEqual(fn(-1),   true)
   t.deepEqual(fn(0),    true)
@@ -24,7 +28,9 @@ test('default behavior', function (t) {
   var s1 = new String('abc')
   var s2 = new String('')
   var s3 = new String('  ')
+  var n3 = new Number(NaN)
 
+  t.deepEqual(fn(n3),        false)
   t.deepEqual(fn(NaN),       false)
   t.deepEqual(fn([]),        false)
   t.deepEqual(fn(a1),        false)

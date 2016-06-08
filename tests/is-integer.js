@@ -1,14 +1,16 @@
-
-const fn = require('..').isInteger
+const fn = require('../is-integer')
 const test = require('tape')
 
 test('default behavior', function (t) {
+
+  var n1 = new Number(12)
 
   t.deepEqual(fn(12),        true)
   t.deepEqual(fn(-1),        true)
   t.deepEqual(fn(0),         true)
   t.deepEqual(fn(-0),        true)
   t.deepEqual(fn(1),         true)
+  t.deepEqual(fn(n1),        true)
   t.deepEqual(fn(Number.POSITIVE_INFINITY), true)
   t.deepEqual(fn(Number.NEGATIVE_INFINITY), true)
 
@@ -24,7 +26,11 @@ test('default behavior', function (t) {
   var s1 = new String('abc')
   var s2 = new String('')
   var s3 = new String('  ')
+  var n2 = new Number(12.3)
+  var n3 = new Number(NaN)
 
+  t.deepEqual(fn(n2),        false)
+  t.deepEqual(fn(n3),        false)
   t.deepEqual(fn(-1.1),      false)
   t.deepEqual(fn(1.1),       false)
   t.deepEqual(fn(NaN),       false)

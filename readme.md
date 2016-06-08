@@ -10,6 +10,16 @@ npm i is-funcs
 
 Package [on npm](https://www.npmjs.com/package/is-funcs)
 
+## require
+
+```js
+// require all functions
+const isObject = require('is-funcs').isObject
+
+// require only the single function (recommanded)
+const isObject = require('is-funcs/is-object')
+```
+
 ## API
 
 * [is](#isstr-data)
@@ -33,7 +43,7 @@ Package [on npm](https://www.npmjs.com/package/is-funcs)
 Execute one or more check on `data`, based on `str`
 
 ```js
-const is = require('is-funcs').is
+const is = require('is-funcs/is')
 
 // true
 is('array', ['a'])
@@ -66,7 +76,7 @@ The argument `check` is optional, default to `true`
 If `check` is `false`, the length is not tested
 
 ```js
-const isArray = require('is-funcs').isArray
+const isArray = require('is-funcs/is-array')
 
 // false
 isArray({a:1})
@@ -86,7 +96,7 @@ isArray([], false)
 Check if `data` is a **Boolean**
 
 ```js
-const isBoolean = require('is-funcs').isBoolean
+const isBoolean = require('is-funcs/is-boolean')
 
 // false
 isBoolean({a:1})
@@ -112,7 +122,7 @@ Return `true` if
 Otherwise return `false`
 
 ```js
-const isDefined = require('is-funcs').isDefined
+const isDefined = require('is-funcs/is-defined')
 
 // false
 isDefined(NaN)
@@ -150,7 +160,7 @@ isDefined('a')
 Check if `data` is a float **Number**
 
 ```js
-const isFloat = require('is-funcs').isFloat
+const isFloat = require('is-funcs/is-float')
 
 // false
 isFloat('abc')
@@ -167,7 +177,7 @@ isFloat(12.3)
 Check if `data` is a **Function**
 
 ```js
-const isFunction = require('is-funcs').isFunction
+const isFunction = require('is-funcs/is-function')
 
 // false
 isFunction(12.3)
@@ -181,7 +191,7 @@ isFunction(function() {})
 Check if `data` is a greater than `than`
 
 ```js
-const isGt = require('is-funcs').isGt
+const isGt = require('is-funcs/is-gt')
 
 // true
 isGt(2, 1)
@@ -195,7 +205,7 @@ isGt(2, 3)
 Check if `data` is a greater than or equal `than`
 
 ```js
-const isGte = require('is-funcs').isGte
+const isGte = require('is-funcs/is-gte')
 
 // true
 isGte(3, 2)
@@ -212,7 +222,7 @@ isGte(2, 3)
 Check if `data` is an integer **Number**
 
 ```js
-const isInteger = require('is-funcs').isInteger
+const isInteger = require('is-funcs/is-integer')
 
 // true
 isGt(2)
@@ -226,7 +236,7 @@ isGt(2.34)
 Check if `data` is a lower than `than`
 
 ```js
-const isLt = require('is-funcs').isLt
+const isLt = require('is-funcs/is-lt')
 
 // true
 isLt(1, 2)
@@ -240,7 +250,7 @@ isLt(3, 2)
 Check if `data` is a lower than or equal `than`
 
 ```js
-const isLte = require('is-funcs').isLte
+const isLte = require('is-funcs/is-lte')
 
 // true
 isLte(1, 2)
@@ -260,7 +270,7 @@ Check if `data` is a **Html Element** landed in the `document.body`
 * non visual element like `style` or `style` are excluded
 
 ```js
-const isNode = require('is-funcs').isNode
+const isNode = require('is-funcs/is-node')
 
 // true
 isNode(document.querySelector('div'))
@@ -278,7 +288,7 @@ The argument `check` is optional, default to `true`
 If `check` is `false`, the `isNaN` step is ignored
 
 ```js
-const isNumber = require('is-funcs').isNumber
+const isNumber = require('is-funcs/is-number')
 
 // false
 isNumber([1])
@@ -302,7 +312,7 @@ The argument `check` is optional, default to `true`
 If `check` is `false`, the keys count is not tested
 
 ```js
-const isObject = require('is-funcs').isObject
+const isObject = require('is-funcs/is-object')
 
 // false
 isObject([1])
@@ -326,7 +336,7 @@ The argument `check` is optional, default to `true`
 If `check` is `false`, the trimmed length is not tested
 
 ```js
-const isString = require('is-funcs').isString
+const isString = require('is-funcs/is-string')
 
 // false
 isString({a:1})

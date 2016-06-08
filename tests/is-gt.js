@@ -1,10 +1,13 @@
-
-const fn = require('..').isGt
+const fn = require('../is-gt')
 const test = require('tape')
 
 test('default behavior', function (t) {
 
-  t.deepEqual(fn(2, 1),  true)
+  var n1 = new Number(2)
+  var n2 = new Number(1)
+
+  t.deepEqual(fn(2, 1),   true)
+  t.deepEqual(fn(n1, n2), true)
   t.deepEqual(fn(Number.POSITIVE_INFINITY, 2), true)
 
   var a1 = new Array(1)
@@ -19,9 +22,15 @@ test('default behavior', function (t) {
   var s1 = new String('abc')
   var s2 = new String('')
   var s3 = new String('  ')
+  var n3 = new Number(2)
+  var n4 = new Number(12)
+  var n5 = new Number(NaN)
 
+  t.deepEqual(fn(n3, n4),        false)
+  t.deepEqual(fn(n3, n5),        false)
   t.deepEqual(fn(2, 12),         false)
   t.deepEqual(fn(NaN, NaN),      false)
+  t.deepEqual(fn(2, NaN),        false)
   t.deepEqual(fn(-1, NaN),       false)
   t.deepEqual(fn(-1.1, {}),      false)
   t.deepEqual(fn(-0.01, []),     false)
@@ -42,6 +51,7 @@ test('default behavior', function (t) {
   t.deepEqual(fn(Number.NEGATIVE_INFINITY, 2), false)
   t.deepEqual(fn(2, 2),         false)
   t.deepEqual(fn(NaN, 2),       false)
+  t.deepEqual(fn(NaN, -1),      false)
   t.deepEqual(fn(true, 2),      false)
   t.deepEqual(fn(false, 2),     false)
   t.deepEqual(fn([1], 2),       false)
