@@ -18,7 +18,11 @@ test('default behavior', function (t) {
   o2.a = 3
   var o3 = new Object()
   var o4 = Object.create(null)
+  var b1 = new Boolean(true)
+  var b2 = new Boolean(false)
 
+  t.deepEqual(fn(b1),        false)
+  t.deepEqual(fn(b2),        false)
   t.deepEqual(fn(s2),        false)
   t.deepEqual(fn(s3),        false)
   t.deepEqual(fn(''),        false)
@@ -51,10 +55,14 @@ test('default behavior', function (t) {
 test('check true', function (t) {
 
   var s1 = new String('abc')
+  var b1 = new Boolean(true)
 
   t.deepEqual(fn('abc', true), true)
+  t.deepEqual(fn('abc', b1),   true)
   t.deepEqual(fn(' a ', true), true)
+  t.deepEqual(fn(' a ', b1),   true)
   t.deepEqual(fn(s1,    true), true)
+  t.deepEqual(fn(s1,    b1),   true)
 
   var o1 = new Object()
   o1.a = 2
@@ -66,10 +74,12 @@ test('check true', function (t) {
   var s2 = new String('')
   var s3 = new String('  ')
 
-  t.deepEqual(fn('',    true), false)
-  t.deepEqual(fn('   ', true), false)
-  t.deepEqual(fn(s2,    true), false)
-  t.deepEqual(fn(s3,    true), false)
+  t.deepEqual(fn('',        true), false)
+  t.deepEqual(fn('',        b1),   false)
+  t.deepEqual(fn('   ',     true), false)
+  t.deepEqual(fn('   ',     b1),   false)
+  t.deepEqual(fn(s2,        true), false)
+  t.deepEqual(fn(s3,        true), false)
   t.deepEqual(fn({a:1},     true), false)
   t.deepEqual(fn(o1,        true), false)
   t.deepEqual(fn(o2,        true), false)
@@ -98,14 +108,22 @@ test('check false', function (t) {
   var s1 = new String('abc')
   var s2 = new String('')
   var s3 = new String('  ')
+  var b1 = new Boolean(false)
 
   t.deepEqual(fn('abc', false), true)
+  t.deepEqual(fn('abc', b1),    true)
   t.deepEqual(fn(' a ', false), true)
+  t.deepEqual(fn(' a ', b1),    true)
   t.deepEqual(fn(s1,    false), true)
+  t.deepEqual(fn(s1,    b1),    true)
   t.deepEqual(fn(s2,    false), true)
+  t.deepEqual(fn(s2,    b1),    true)
   t.deepEqual(fn(s3,    false), true)
+  t.deepEqual(fn(s3,    b1),    true)
   t.deepEqual(fn('',    false), true)
+  t.deepEqual(fn('',    b1),    true)
   t.deepEqual(fn('   ', false), true)
+  t.deepEqual(fn('   ', b1),    true)
 
   var o1 = new Object()
   o1.a = 2

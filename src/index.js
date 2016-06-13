@@ -1,6 +1,5 @@
 
 const isNode = require('../is-node')
-const is = require('../is')
 
 const body = document.querySelector('body')
 
@@ -9,7 +8,7 @@ function colored(msg) {
 }
 
 function test(el) {
-  console.log(el.nodeName, 'isNode:', isNode(el), 'is:', is('node', el))
+  console.log(el.nodeName, 'isNode:', isNode(el))
 }
 
 function onload() {

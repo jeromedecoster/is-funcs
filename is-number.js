@@ -1,6 +1,8 @@
+const isTrue = require('./is-true')
+
 module.exports = function(data, check) {
   if (data == null) return false
-  check = check === undefined || check === true
+  check = check === undefined || isTrue(check)
   if (typeof data === 'number') {
     return check
       ? data === data

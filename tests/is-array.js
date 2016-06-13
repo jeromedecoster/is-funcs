@@ -19,7 +19,11 @@ test('default behavior', function (t) {
   var s1 = new String('abc')
   var s2 = new String('')
   var s3 = new String('  ')
+  var b1 = new Boolean(true)
+  var b2 = new Boolean(false)
 
+  t.deepEqual(fn(b1),        false)
+  t.deepEqual(fn(b2),        false)
   t.deepEqual(fn(a2),        false)
   t.deepEqual(fn([]),        false)
   t.deepEqual(fn('abc'),     false)
@@ -55,9 +59,11 @@ test('default behavior', function (t) {
 test('check true', function (t) {
 
   var a1 = new Array(1)
+  var b1 = new Boolean(true)
 
   t.deepEqual(fn([1], true), true)
   t.deepEqual(fn(a1,  true), true)
+  t.deepEqual(fn(a1,  b1),   true)
 
   var o1 = new Object()
   o1.a = 2
@@ -69,9 +75,10 @@ test('check true', function (t) {
   var s1 = new String('abc')
   var s2 = new String('')
   var s3 = new String('  ')
-
   var a2 = new Array(0)
+
   t.deepEqual(fn([],        true), false)
+  t.deepEqual(fn([],        b1),   false)
   t.deepEqual(fn(a2,        true), false)
   t.deepEqual(fn('abc',     true), false)
   t.deepEqual(fn(' a ',     true), false)
@@ -106,9 +113,12 @@ test('check false', function (t) {
 
   var a1 = new Array(1)
   var a2 = new Array(0)
+  var b1 = new Boolean(false)
 
   t.deepEqual(fn([],  false), true)
+  t.deepEqual(fn([],  b1),    true)
   t.deepEqual(fn([1], false), true)
+  t.deepEqual(fn([1], b1),    true)
   t.deepEqual(fn(a1,  false), true)
   t.deepEqual(fn(a2,  false), true)
 

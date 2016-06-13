@@ -3,6 +3,8 @@ const test = require('tape')
 
 test('default behavior', function (t) {
 
+  var b1 = new Boolean(true)
+  var b2 = new Boolean(false)
   var a1 = new Array(1)
   var o1 = new Object()
   o1.a = 2
@@ -13,6 +15,8 @@ test('default behavior', function (t) {
   var n1 = new Number(12)
   var n2 = new Number(12.3)
 
+  t.deepEqual(fn(b1),        true)
+  t.deepEqual(fn(b2),        true)
   t.deepEqual(fn(2),         true)
   t.deepEqual(fn(-1),        true)
   t.deepEqual(fn(-1.1),      true)

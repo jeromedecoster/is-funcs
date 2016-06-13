@@ -33,6 +33,8 @@ test('default behavior', function (t) {
   var n3 = new Number(-1)
   var n4 = new Number(-2)
   var n5 = new Number(NaN)
+  var b1 = new Boolean(true)
+  var b2 = new Boolean(false)
 
   t.deepEqual(fn(n3, n4),        false)
   t.deepEqual(fn(n3, n5),        false)
@@ -48,6 +50,10 @@ test('default behavior', function (t) {
   t.deepEqual(fn(-0, undefined), false)
   t.deepEqual(fn(Number.NEGATIVE_INFINITY), false)
 
+  t.deepEqual(fn(b1, 2),        false)
+  t.deepEqual(fn(b2, 2),        false)
+  t.deepEqual(fn(12, b1),       false)
+  t.deepEqual(fn(12, b2),       false)
   t.deepEqual(fn(12, 2),        false)
   t.deepEqual(fn(Number.POSITIVE_INFINITY, 2), false)
   t.deepEqual(fn(NaN, 2),       false)

@@ -26,7 +26,11 @@ test('default behavior', function (t) {
   var s3 = new String('  ')
   var f2 = new Foo()
   f2.constructor = Object
+  var b1 = new Boolean(true)
+  var b2 = new Boolean(false)
 
+  t.deepEqual(fn(b1),        false)
+  t.deepEqual(fn(b2),        false)
   t.deepEqual(fn(f1),        false)
   t.deepEqual(fn(f2),        false)
   t.deepEqual(fn(12),        false)

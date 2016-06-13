@@ -1,3 +1,6 @@
 module.exports = function(data) {
-  return data === true || data === false
+  if (data == null) return false
+  return data === true
+    || data === false
+    || Object.getPrototypeOf(data) === Boolean.prototype
 }

@@ -24,7 +24,11 @@ test('default behavior', function (t) {
   var n1 = new Number(12)
   var n2 = new Number(12.3)
   var n3 = new Number(NaN)
+  var b1 = new Boolean(true)
+  var b2 = new Boolean(false)
 
+  t.deepEqual(fn(b1),        false)
+  t.deepEqual(fn(b2),        false)
   t.deepEqual(fn(n1),        false)
   t.deepEqual(fn(n2),        false)
   t.deepEqual(fn(n3),        false)
@@ -63,10 +67,14 @@ test('check true', function (t) {
   o1.a = 2
   var o2 = Object.create(null)
   o2.a = 3
+  var b1 = new Boolean(true)
 
   t.deepEqual(fn({a:1}, true), true)
+  t.deepEqual(fn({a:1}, b1),   true)
   t.deepEqual(fn(o1,    true), true)
+  t.deepEqual(fn(o1,    b1),   true)
   t.deepEqual(fn(o2,    true), true)
+  t.deepEqual(fn(o2,    b1),   true)
 
   var noop = function() {}
   var s1 = new String('abc')
@@ -76,7 +84,9 @@ test('check true', function (t) {
   var o3 = new Object()
   var o4 = Object.create(null)
   t.deepEqual(fn(o3,        true), false)
+  t.deepEqual(fn(o3,        b1),   false)
   t.deepEqual(fn(o4,        true), false)
+  t.deepEqual(fn(o4,        b1),   false)
   t.deepEqual(fn(s1,        true), false)
   t.deepEqual(fn(s2,        true), false)
   t.deepEqual(fn(s3,        true), false)
@@ -108,12 +118,18 @@ test('check false', function (t) {
   o2.a = 3
   var o3 = new Object()
   var o4 = Object.create(null)
+  var b1 = new Boolean(false)
 
   t.deepEqual(fn({a:1}, false), true)
+  t.deepEqual(fn({a:1}, b1),    true)
   t.deepEqual(fn(o1,    false), true)
+  t.deepEqual(fn(o1,    b1),    true)
   t.deepEqual(fn(o2,    false), true)
+  t.deepEqual(fn(o2,    b1),    true)
   t.deepEqual(fn(o3,    false), true)
+  t.deepEqual(fn(o3,    b1),    true)
   t.deepEqual(fn(o4,    false), true)
+  t.deepEqual(fn(o4,    b1),    true)
 
   var noop = function() {}
   var s1 = new String('abc')

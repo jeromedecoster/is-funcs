@@ -1,6 +1,6 @@
 {
   "name": "is-funcs",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "A very limited subset of type checking functions I use every day",
   "repository": "jeromedecoster/is-funcs",
   "main": "index.js",
@@ -9,6 +9,7 @@
     "is-array.js",
     "is-boolean.js",
     "is-defined.js",
+    "is-false.js",
     "is-float.js",
     "is-function.js",
     "is-gt.js",
@@ -21,7 +22,10 @@
     "is-number.js",
     "is-object.js",
     "is-string.js",
-    "is.js"
+    "is-true.js",
+    "set-boolean.js",
+    "set-number.js",
+    "set-string.js"
   ],
   "keywords": [
     "type",
@@ -29,6 +33,7 @@
     "is-array",
     "is-boolean",
     "is-defined",
+    "is-false",
     "is-float",
     "is-function",
     "is-gt",
@@ -40,7 +45,11 @@
     "is-node",
     "is-number",
     "is-object",
-    "is-string"
+    "is-string",
+    "is-true",
+    "set-boolean",
+    "set-number",
+    "set-string"
   ],
   "author": {
     "name": "Jérôme Decoster",

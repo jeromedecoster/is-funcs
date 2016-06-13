@@ -15,7 +15,11 @@ test('default behavior', function (t) {
   var s1 = new String('abc')
   var s2 = new String('')
   var s3 = new String('  ')
+  var b1 = new Boolean(true)
+  var b2 = new Boolean(false)
 
+  t.deepEqual(fn(b1),        false)
+  t.deepEqual(fn(b2),        false)
   t.deepEqual(fn(0),         false)
   t.deepEqual(fn(-0),        false)
   t.deepEqual(fn(NaN),       false)

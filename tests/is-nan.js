@@ -22,7 +22,11 @@ test('default behavior', function (t) {
   var s3 = new String('  ')
   var n2 = new Number(12)
   var n3 = new Number(12.3)
+  var b1 = new Boolean(true)
+  var b2 = new Boolean(false)
 
+  t.deepEqual(fn(b1),        false)
+  t.deepEqual(fn(b2),        false)
   t.deepEqual(fn(n2),        false)
   t.deepEqual(fn(n3),        false)
   t.deepEqual(fn(-1.1),      false)

@@ -29,7 +29,11 @@ test('default behavior', function (t) {
   var s2 = new String('')
   var s3 = new String('  ')
   var n3 = new Number(NaN)
+  var b1 = new Boolean(true)
+  var b2 = new Boolean(false)
 
+  t.deepEqual(fn(b1),        false)
+  t.deepEqual(fn(b2),        false)
   t.deepEqual(fn(n3),        false)
   t.deepEqual(fn(NaN),       false)
   t.deepEqual(fn([]),        false)
@@ -62,11 +66,20 @@ test('default behavior', function (t) {
 
 test('check true', function (t) {
 
+  var n1 = new Number(12)
+  var n2 = new Number(12.3)
+  var b1 = new Boolean(true)
+
+  t.deepEqual(fn(n1,   true), true)
+  t.deepEqual(fn(n2,   true), true)
   t.deepEqual(fn(-1.1, true), true)
   t.deepEqual(fn(-1,   true), true)
   t.deepEqual(fn(0,    true), true)
   t.deepEqual(fn(1,    true), true)
   t.deepEqual(fn(1.1,  true), true)
+  t.deepEqual(fn(1.1,  b1),   true)
+  t.deepEqual(fn(n1,   b1),   true)
+  t.deepEqual(fn(n2,   b1),   true)
   t.deepEqual(fn(Number.POSITIVE_INFINITY), true)
   t.deepEqual(fn(Number.NEGATIVE_INFINITY), true)
 
@@ -83,6 +96,7 @@ test('check true', function (t) {
   var s2 = new String('')
   var s3 = new String('  ')
 
+  t.deepEqual(fn(NaN,       b1),   false)
   t.deepEqual(fn(NaN,       true), false)
   t.deepEqual(fn([],        true), false)
   t.deepEqual(fn([1],       true), false)
@@ -114,6 +128,13 @@ test('check true', function (t) {
 
 test('check false', function (t) {
 
+  var n1 = new Number(12)
+  var n2 = new Number(12.3)
+  var b1 = new Boolean(false)
+
+  t.deepEqual(fn(n1,   false), true)
+  t.deepEqual(fn(n2,   false), true)
+  t.deepEqual(fn(n1,   b1),    true)
   t.deepEqual(fn(-1.1, false), true)
   t.deepEqual(fn(-1,   false), true)
   t.deepEqual(fn(0,    false), true)

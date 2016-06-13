@@ -1,15 +1,12 @@
-const fn = require('../is-boolean')
+const fn = require('../is-true')
 const test = require('tape')
 
 test('default behavior', function (t) {
 
   var b1 = new Boolean(true)
-  var b2 = new Boolean(false)
 
   t.deepEqual(fn(true),  true)
-  t.deepEqual(fn(false), true)
   t.deepEqual(fn(b1),    true)
-  t.deepEqual(fn(b2),    true)
 
   var a1 = new Array(1)
   var a2 = new Array(0)
@@ -23,11 +20,15 @@ test('default behavior', function (t) {
   var s1 = new String('abc')
   var s2 = new String('')
   var s3 = new String('  ')
+  var b2 = new Boolean(false)
 
+  t.deepEqual(fn(false),     false)
+  t.deepEqual(fn(b2),        false)
   t.deepEqual(fn([1]),       false)
   t.deepEqual(fn(a1),        false)
   t.deepEqual(fn(a2),        false)
   t.deepEqual(fn([]),        false)
+  t.deepEqual(fn('true'),    false)
   t.deepEqual(fn('abc'),     false)
   t.deepEqual(fn(' a '),     false)
   t.deepEqual(fn(''),        false)

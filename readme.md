@@ -22,10 +22,10 @@ const isObject = require('is-funcs/is-object')
 
 ## API
 
-* [is](#isstr-data)
 * [isArray](#isarraydata-check)
 * [isBoolean](#isbooleandata)
 * [isDefined](#isdefineddata)
+* [isFalse](#isfalsedata)
 * [isFloat](#isfloatdata)
 * [isFunction](#isfunctiondata)
 * [isGt](#isgtdata-than)
@@ -38,35 +38,10 @@ const isObject = require('is-funcs/is-object')
 * [isNumber](#isnumberdata-check)
 * [isObject](#isobjectdata-check)
 * [isString](#isstringdata-check)
-
-#### is(str, data)
-
-Execute one or more check on `data`, based on `str`
-
-```js
-const is = require('is-funcs/is')
-
-// true
-is('array', ['a'])
-
-// false
-is('array', [])
-
-// true
-is('array:false', [])
-
-// true
-is('lt:3', 2)
-
-// false
-is('lt:3', 5)
-
-// true
-is('float lte:1 gte:-1', -0.09)
-
-// false
-is('float lte:1 gte:-1', -1)
-```
+* [isTrue](#istruedata)
+* [setBoolean](#setbooleandata-fallback)
+* [setNumber](#setnumberdata-fallback-min-max)
+* [setString](#setstringdata-fallback-allowed)
 
 #### isArray(data, [check])
 
@@ -92,6 +67,8 @@ isArray([])
 isArray([], false)
 ```
 
+---
+
 #### isBoolean(data)
 
 Check if `data` is a **Boolean**
@@ -108,6 +85,8 @@ isBoolean(true)
 // true
 isBoolean(false)
 ```
+
+---
 
 #### isDefined(data)
 
@@ -156,6 +135,27 @@ isDefined(' ')
 isDefined('a')
 ```
 
+---
+
+#### isFalse(data)
+
+Check if `data` is `false`
+
+```js
+const isFalse = require('is-funcs/is-false')
+
+// true
+isFalse(false)
+
+// true
+isFalse(new Boolean(false))
+
+// false
+isFalse(0)
+```
+
+---
+
 #### isFloat(data)
 
 Check if `data` is a float **Number**
@@ -173,6 +173,8 @@ isFloat(12)
 isFloat(12.3)
 ```
 
+---
+
 #### isFunction(data)
 
 Check if `data` is a **Function**
@@ -187,6 +189,8 @@ isFunction(12.3)
 isFunction(function() {})
 ```
 
+---
+
 #### isGt(data, than)
 
 Check if `data` is a greater than `than`
@@ -200,6 +204,8 @@ isGt(2, 1)
 // false
 isGt(2, 3)
 ```
+
+---
 
 #### isGte(data, than)
 
@@ -218,6 +224,8 @@ isGte(2, 2)
 isGte(2, 3)
 ```
 
+---
+
 #### isInteger(data)
 
 Check if `data` is an integer **Number**
@@ -232,6 +240,8 @@ isGt(2)
 isGt(2.34)
 ```
 
+---
+
 #### isLt(data, than)
 
 Check if `data` is a lower than `than`
@@ -245,6 +255,8 @@ isLt(1, 2)
 // false
 isLt(3, 2)
 ```
+
+---
 
 #### isLte(data, than)
 
@@ -262,6 +274,8 @@ isLte(2, 2)
 // false
 isLte(3, 2)
 ```
+
+---
 
 #### isNaN(data)
 
@@ -283,6 +297,8 @@ isnan('abc')
 isNaN('abc')
 ```
 
+---
+
 #### isNode(data)
 
 Check if `data` is a **Html Element** landed in the `document.body`
@@ -299,6 +315,8 @@ isNode(document.querySelector('div'))
 // false
 isNode(document.createElement('div'))
 ```
+
+---
 
 #### isNumber(data, [check])
 
@@ -324,6 +342,8 @@ isNumber(2.34)
 isNumber(NaN)
 ```
 
+---
+
 #### isObject(data, [check])
 
 Check if `data` is an **Plain Object** and has at least 1 key
@@ -347,6 +367,8 @@ isObject({})
 // true
 isObject({}, false)
 ```
+
+---
 
 #### isString(data, [check])
 
@@ -373,6 +395,104 @@ isString('  ')
 
 // true
 isString('  ', false)
+```
+
+---
+
+#### isTrue(data)
+
+Check if `data` is `true`
+
+```js
+const isTrue = require('is-funcs/is-true')
+
+// true
+isTrue(true)
+
+// true
+isTrue(new Boolean(true))
+
+// false
+isTrue(1)
+```
+
+---
+
+#### setBoolean(data, [fallback])
+
+Check if `data` is a **Boolean**
+
+If yes, return `data` otherwise return `fallback`
+
+The argument `fallback` is optional, default to `false`
+
+`fallback` must be a `boolean` or strictly equal to `null`
+
+```js
+const setBoolean = require('is-funcs/set-boolean')
+
+function test(opts) {
+  opts = opts || {}
+
+  // option silent will be `true` if not defined
+  opts.silent = setBoolean(opts.silent, true)
+
+  // delete value is `null` is defined
+  if (opts.silent === null) delete opts.silent
+}
+```
+
+---
+
+#### setNumber(data, [fallback], [min], [max])
+
+Check if `data` is a **Number**
+
+If yes, return `data` otherwise return `fallback`
+
+The argument `fallback` is optional, default to `0`
+
+`fallback` must be a `number` or strictly equal to `null`
+
+`data` can be clamped between `min` and `max`
+
+```js
+const setNumber = require('is-funcs/set-number')
+
+function test(opts) {
+  opts = opts || {}
+
+  // option `delay` will be `50` if not defined
+  opts.delay = setNumber(opts.delay, 50)
+
+  // option `time` will be 25 min
+  opts.time = setNumber(opts.time, 50, 25)
+}
+```
+
+---
+
+#### setString(data, [fallback], [allowed])
+
+Check if `data` is a **String**
+
+If yes, return `data` otherwise return `fallback`
+
+The argument `fallback` is optional, default to `''`
+
+`fallback` must be a `string` or strictly equal to `null`
+
+`allowed` can be an array of accepted values. If `data` is not found in `allowed`, the `fallback` is returned
+
+```js
+const setString = require('is-funcs/set-string')
+
+function test(opts) {
+  opts = opts || {}
+
+  // option `ignore` can be 'resize' of 'scroll', fallback to 'resize'
+  opts.ignore = setString(opts.ignore, 'resize', ['resize', 'scroll'])
+}
 ```
 
 ## License
