@@ -45,5 +45,10 @@ test('allowed', function (t) {
   t.equal(fn(s1,    '',        ['yes', s1]),   'no')
   t.equal(fn('why', s2,        ['yes', 'no']), 'err')
   t.equal(fn('why', undefined, ['yes', 'no']), '')
+
+  t.equal(fn('abc', '',        'yes no'),      '')
+  t.equal(fn('no',  '',        'yes no'),      'no')
+  t.equal(fn('no',  '',        '  yes   no '), 'no')
+
   t.end()
 })

@@ -1,6 +1,6 @@
 {
   "name": "is-funcs",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A very limited subset of type checking functions I use every day",
   "repository": "jeromedecoster/is-funcs",
   "main": "index.js",

@@ -4,9 +4,14 @@ const isArray = require('./is-array')
 module.exports = function(data, fallback, allowed) {
   if (isString(data, false) === false) return toFallback(fallback)
   data = toPrimitive(data)
-  if (isArray(allowed)) {
-    if (allowed.some(function(e) { return toPrimitive(e) == data })) return data
-    return toFallback(fallback)
+  if (isString(allowed)) {
+    allowed = allowed.trim().split(/ +/)
+    var ok = true
+  }
+  if (ok === true || isArray(allowed)) {
+    return allowed.some(function(e) { return toPrimitive(e) == data })
+      ? data
+      : toFallback(fallback)
   }
   return data
 }

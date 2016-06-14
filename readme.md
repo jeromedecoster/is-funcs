@@ -482,7 +482,7 @@ The argument `fallback` is optional, default to `''`
 
 `fallback` must be a `string` or strictly equal to `null`
 
-`allowed` can be an array of accepted values. If `data` is not found in `allowed`, the `fallback` is returned
+`allowed` can be a string or an array of accepted values. If `data` is not found in `allowed`, the `fallback` is returned
 
 ```js
 const setString = require('is-funcs/set-string')
@@ -490,7 +490,10 @@ const setString = require('is-funcs/set-string')
 function test(opts) {
   opts = opts || {}
 
-  // option `ignore` can be 'resize' of 'scroll', fallback to 'resize'
+  // option `ignore` can be 'resize' or 'scroll', fallback to 'resize'
+  opts.ignore = setString(opts.ignore, 'resize', 'resize scroll')
+
+  // using the array form
   opts.ignore = setString(opts.ignore, 'resize', ['resize', 'scroll'])
 }
 ```
