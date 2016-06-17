@@ -42,6 +42,7 @@ const isObject = require('is-funcs/is-object')
 * [setBoolean](#setbooleandata-fallback)
 * [setNumber](#setnumberdata-fallback-min-max)
 * [setString](#setstringdata-fallback-allowed)
+* [toNumber](#tonumberdata-fallback)
 
 #### isArray(data, [check])
 
@@ -496,6 +497,36 @@ function test(opts) {
   // using the array form
   opts.ignore = setString(opts.ignore, 'resize', ['resize', 'scroll'])
 }
+```
+
+---
+
+#### toNumber(data, [fallback])
+
+Check if `data` is a **String representation** of a **Number**
+
+If yes, convert and return the numeric value otherwise return `fallback`
+
+The argument `fallback` is optional, default to `undefined`
+
+`fallback` must be a `number` or strictly equal to `null`
+
+If `data` is already a number, return `data`
+
+```js
+const toNumber = require('is-funcs/to-number')
+
+// 1.23
+toNumber('1.23')
+
+// undefined
+toNumber('0.1s')
+
+// 1
+toNumber('3.45s', 1)
+
+// -1.23
+toNumber(-1.23)
 ```
 
 ## License

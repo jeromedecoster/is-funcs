@@ -1,6 +1,6 @@
 {
   "name": "is-funcs",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "A very limited subset of type checking functions I use every day",
   "repository": "jeromedecoster/is-funcs",
   "main": "index.js",
@@ -25,7 +25,8 @@
     "is-true.js",
     "set-boolean.js",
     "set-number.js",
-    "set-string.js"
+    "set-string.js",
+    "to-number.js"
   ],
   "keywords": [
     "type",
@@ -49,7 +50,8 @@
     "is-true",
     "set-boolean",
     "set-number",
-    "set-string"
+    "set-string",
+    "to-number"
   ],
   "author": {
     "name": "Jérôme Decoster",
