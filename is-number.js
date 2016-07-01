@@ -1,15 +1,12 @@
-const isTrue = require('./is-true')
-
-module.exports = function(data, check) {
+module.exports = function(data, check, safe) {
   if (data == null) return false
-  check = check === undefined || isTrue(check)
   if (typeof data === 'number') {
-    return check
+    return check === undefined || check === true
       ? data === data
       : true
   }
-  if (Object.getPrototypeOf(data) === Number.prototype) {
-    return check
+  if (safe === true && Object.getPrototypeOf(data) === Number.prototype) {
+    return check === undefined || check === true
       ? isNaN(data) === false
       : true
   }

@@ -1,17 +1,17 @@
-const fn = require('../is-function')
+const fn = require('../is-float')
 const test = require('tape')
 
-test('default behavior', function (t) {
+test('is-float default behavior', function (t) {
 
-  var noop = function() {}
-  var Foo = function() {}
-  Foo.prototype.test = function() {}
-  var f1 = new Foo()
+  // special case...
+  // should be true, but nobody creates new Number(12.3)
+  // so, ignored to speed up the function
+  var n1 = new Number(12.3)
+  t.deepEqual(fn(n1), false)
+  // ...end of special case
 
-  t.deepEqual(fn(noop),     true)
-  t.deepEqual(fn(Math.max), true)
-  t.deepEqual(fn(f1.test),   true)
-  t.deepEqual(fn(Foo.prototype.test), true)
+  t.deepEqual(fn(-1.1),      true)
+  t.deepEqual(fn(1.1),       true)
 
   var a1 = new Array(1)
   var a2 = new Array(0)
@@ -21,18 +21,15 @@ test('default behavior', function (t) {
   o2.a = 3
   var o3 = new Object()
   var o4 = Object.create(null)
+  var noop = function() {}
   var s1 = new String('abc')
   var s2 = new String('')
   var s3 = new String('  ')
-  var f2 = new Foo()
-  f2.constructor = Object
-  var b1 = new Boolean(true)
-  var b2 = new Boolean(false)
+  var n2 = new Number(12)
+  var n3 = new Number(NaN)
 
-  t.deepEqual(fn(b1),        false)
-  t.deepEqual(fn(b2),        false)
-  t.deepEqual(fn(f1),        false)
-  t.deepEqual(fn(f2),        false)
+  t.deepEqual(fn(n2),        false)
+  t.deepEqual(fn(n3),        false)
   t.deepEqual(fn(12),        false)
   t.deepEqual(fn(-1),        false)
   t.deepEqual(fn(0),         false)
@@ -40,8 +37,6 @@ test('default behavior', function (t) {
   t.deepEqual(fn(1),         false)
   t.deepEqual(fn(Number.POSITIVE_INFINITY), false)
   t.deepEqual(fn(Number.NEGATIVE_INFINITY), false)
-  t.deepEqual(fn(-1.1),      false)
-  t.deepEqual(fn(1.1),       false)
   t.deepEqual(fn(NaN),       false)
   t.deepEqual(fn(true),      false)
   t.deepEqual(fn(false),     false)
@@ -65,8 +60,19 @@ test('default behavior', function (t) {
   t.deepEqual(fn(null),      false)
   t.deepEqual(fn(undefined), false)
   t.deepEqual(fn(),          false)
+  t.deepEqual(fn(noop),      false)
   t.deepEqual(fn(Math),      false)
   t.deepEqual(fn(new Date),  false)
   t.deepEqual(fn(arguments), false)
+  t.end()
+})
+
+test('is-float safe true', function (t) {
+
+  // the end of special case for new Number(12.3)
+  var n1 = new Number(12.3)
+  var n2 = new Number(NaN)
+  t.deepEqual(fn(n1, true), true)
+  t.deepEqual(fn(n2, true), false)
   t.end()
 })

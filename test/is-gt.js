@@ -1,13 +1,17 @@
 const fn = require('../is-gt')
 const test = require('tape')
 
-test('default behavior', function (t) {
+test('is-gt default behavior', function (t) {
 
+  // special case...
+  // should be true, but nobody creates new Number(2)
+  // so, ignored to speed up the function
   var n1 = new Number(2)
   var n2 = new Number(1)
+  t.deepEqual(fn(n1, n2), false)
+  // ...end of special case
 
   t.deepEqual(fn(2, 1),   true)
-  t.deepEqual(fn(n1, n2), true)
   t.deepEqual(fn(Number.POSITIVE_INFINITY, 2), true)
 
   var a1 = new Array(1)
@@ -78,5 +82,18 @@ test('default behavior', function (t) {
   t.deepEqual(fn(Math, 2),      false)
   t.deepEqual(fn(new Date),     false)
   t.deepEqual(fn(arguments, 2), false)
+  t.end()
+})
+
+test('is-gt safe true', function (t) {
+
+  // the end of special case for new Number(2)
+  var n1 = new Number(2)
+  var n2 = new Number(1)
+  var n3 = new Number(NaN)
+  t.deepEqual(fn(n1, n2, true), true)
+  t.deepEqual(fn(n1, n3, true), false)
+  t.deepEqual(fn(n3, n2, true), false)
+
   t.end()
 })

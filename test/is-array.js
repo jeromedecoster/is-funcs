@@ -1,48 +1,43 @@
-const fn = require('../is-object')
+const fn = require('../is-array')
 const test = require('tape')
 
-test('default behavior', function (t) {
+test('is-array default behavior', function (t) {
 
+  var a1 = new Array(1)
+
+  t.deepEqual(fn([1]), true)
+  t.deepEqual(fn(a1),  true)
+
+  var a2 = new Array(0)
   var o1 = new Object()
   o1.a = 2
   var o2 = Object.create(null)
   o2.a = 3
-
-  t.deepEqual(fn({a:1}), true)
-  t.deepEqual(fn(o1),    true)
-  t.deepEqual(fn(o2),    true)
-
-  var noop = function() {}
   var o3 = new Object()
   var o4 = Object.create(null)
+  var noop = function() {}
   var s1 = new String('abc')
   var s2 = new String('')
   var s3 = new String('  ')
-  var Foo = function() {}
-  Foo.prototype.test = function() {}
-  var f1 = new Foo()
-  var n1 = new Number(12)
-  var n2 = new Number(12.3)
-  var n3 = new Number(NaN)
   var b1 = new Boolean(true)
   var b2 = new Boolean(false)
 
   t.deepEqual(fn(b1),        false)
   t.deepEqual(fn(b2),        false)
-  t.deepEqual(fn(n1),        false)
-  t.deepEqual(fn(n2),        false)
-  t.deepEqual(fn(n3),        false)
-  t.deepEqual(fn(f1),        false)
-  t.deepEqual(fn(f1.test),   false)
-  t.deepEqual(fn(Foo.prototype.test), false)
+  t.deepEqual(fn(a2),        false)
+  t.deepEqual(fn([]),        false)
+  t.deepEqual(fn('abc'),     false)
+  t.deepEqual(fn(' a '),     false)
+  t.deepEqual(fn(''),        false)
+  t.deepEqual(fn(' '),       false)
+  t.deepEqual(fn({a:1}),     false)
+  t.deepEqual(fn(o1),        false)
+  t.deepEqual(fn(o2),        false)
   t.deepEqual(fn(o3),        false)
   t.deepEqual(fn(o4),        false)
   t.deepEqual(fn(s1),        false)
   t.deepEqual(fn(s2),        false)
   t.deepEqual(fn(s3),        false)
-  t.deepEqual(fn([]),        false)
-  t.deepEqual(fn([1]),       false)
-  t.deepEqual(fn('abc'),     false)
   t.deepEqual(fn(12),        false)
   t.deepEqual(fn(0),         false)
   t.deepEqual(fn(NaN),       false)
@@ -61,38 +56,46 @@ test('default behavior', function (t) {
   t.end()
 })
 
-test('check true', function (t) {
+test('is-array check true', function (t) {
+
+  // special case...
+  // should be true, but nobody creates new Boolean(true)
+  // so, ignored to speed up the function
+  var b1 = new Boolean(true)
+  t.deepEqual(fn(a1,  b1), false)
+  // ...end of special case
+
+  var a1 = new Array(1)
+
+  t.deepEqual(fn([1], true), true)
+  t.deepEqual(fn(a1,  true), true)
 
   var o1 = new Object()
   o1.a = 2
   var o2 = Object.create(null)
   o2.a = 3
-  var b1 = new Boolean(true)
-
-  t.deepEqual(fn({a:1}, true), true)
-  t.deepEqual(fn({a:1}, b1),   true)
-  t.deepEqual(fn(o1,    true), true)
-  t.deepEqual(fn(o1,    b1),   true)
-  t.deepEqual(fn(o2,    true), true)
-  t.deepEqual(fn(o2,    b1),   true)
-
+  var o3 = new Object()
+  var o4 = Object.create(null)
   var noop = function() {}
   var s1 = new String('abc')
   var s2 = new String('')
   var s3 = new String('  ')
+  var a2 = new Array(0)
 
-  var o3 = new Object()
-  var o4 = Object.create(null)
+  t.deepEqual(fn([],        true), false)
+  t.deepEqual(fn(a2,        true), false)
+  t.deepEqual(fn('abc',     true), false)
+  t.deepEqual(fn(' a ',     true), false)
+  t.deepEqual(fn('',        true), false)
+  t.deepEqual(fn(' ',       true), false)
+  t.deepEqual(fn({a:1},     true), false)
+  t.deepEqual(fn(o1,        true), false)
+  t.deepEqual(fn(o2,        true), false)
   t.deepEqual(fn(o3,        true), false)
-  t.deepEqual(fn(o3,        b1),   false)
   t.deepEqual(fn(o4,        true), false)
-  t.deepEqual(fn(o4,        b1),   false)
   t.deepEqual(fn(s1,        true), false)
   t.deepEqual(fn(s2,        true), false)
   t.deepEqual(fn(s3,        true), false)
-  t.deepEqual(fn([],        true), false)
-  t.deepEqual(fn([1],       true), false)
-  t.deepEqual(fn('abc',     true), false)
   t.deepEqual(fn(12,        true), false)
   t.deepEqual(fn(0,         true), false)
   t.deepEqual(fn(NaN,       true), false)
@@ -110,7 +113,18 @@ test('check true', function (t) {
   t.end()
 })
 
-test('check false', function (t) {
+test('is-array check false', function (t) {
+
+  var a1 = new Array(1)
+  var a2 = new Array(0)
+  var b1 = new Boolean(false)
+
+  t.deepEqual(fn([],  false), true)
+  t.deepEqual(fn([],  b1),    true)
+  t.deepEqual(fn([1], false), true)
+  t.deepEqual(fn([1], b1),    true)
+  t.deepEqual(fn(a1,  false), true)
+  t.deepEqual(fn(a2,  false), true)
 
   var o1 = new Object()
   o1.a = 2
@@ -118,30 +132,23 @@ test('check false', function (t) {
   o2.a = 3
   var o3 = new Object()
   var o4 = Object.create(null)
-  var b1 = new Boolean(false)
-
-  t.deepEqual(fn({a:1}, false), true)
-  t.deepEqual(fn({a:1}, b1),    true)
-  t.deepEqual(fn(o1,    false), true)
-  t.deepEqual(fn(o1,    b1),    true)
-  t.deepEqual(fn(o2,    false), true)
-  t.deepEqual(fn(o2,    b1),    true)
-  t.deepEqual(fn(o3,    false), true)
-  t.deepEqual(fn(o3,    b1),    true)
-  t.deepEqual(fn(o4,    false), true)
-  t.deepEqual(fn(o4,    b1),    true)
-
   var noop = function() {}
   var s1 = new String('abc')
   var s2 = new String('')
   var s3 = new String('  ')
 
+  t.deepEqual(fn('abc',     false), false)
+  t.deepEqual(fn(' a ',     false), false)
+  t.deepEqual(fn('',        false), false)
+  t.deepEqual(fn(' ',       false), false)
+  t.deepEqual(fn({a:1},     false), false)
+  t.deepEqual(fn(o1,        false), false)
+  t.deepEqual(fn(o2,        false), false)
+  t.deepEqual(fn(o3,        false), false)
+  t.deepEqual(fn(o4,        false), false)
   t.deepEqual(fn(s1,        false), false)
   t.deepEqual(fn(s2,        false), false)
   t.deepEqual(fn(s3,        false), false)
-  t.deepEqual(fn([],        false), false)
-  t.deepEqual(fn([1],       false), false)
-  t.deepEqual(fn('abc',     false), false)
   t.deepEqual(fn(12,        false), false)
   t.deepEqual(fn(0,         false), false)
   t.deepEqual(fn(NaN,       false), false)

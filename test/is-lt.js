@@ -1,15 +1,25 @@
-const fn = require('../is-gte')
+const fn = require('../is-lt')
 const test = require('tape')
 
-test('default behavior', function (t) {
+test('is-lt default behavior', function (t) {
 
-  var n1 = new Number(2)
+  // special case...
+  // should be true, but nobody creates new Number(2)
+  // so, ignored to speed up the function
+  var n1 = new Number(-1)
   var n2 = new Number(2)
+  t.deepEqual(fn(n1, n2), false)
+  // ...end of special case
 
-  t.deepEqual(fn(n1, n2), true)
-  t.deepEqual(fn(2, 2),   true)
-  t.deepEqual(fn(12, 2),  true)
-  t.deepEqual(fn(Number.POSITIVE_INFINITY, 2), true)
+  t.deepEqual(fn(-1, 2),    true)
+  t.deepEqual(fn(-1.1, 2),  true)
+  t.deepEqual(fn(-0.01, 2), true)
+  t.deepEqual(fn(0.01, 2),  true)
+  t.deepEqual(fn(0, 2),     true)
+  t.deepEqual(fn(1, 2),     true)
+  t.deepEqual(fn(1.1, 2),   true)
+  t.deepEqual(fn(-0, 2),    true)
+  t.deepEqual(fn(Number.NEGATIVE_INFINITY, 2), true)
 
   var a1 = new Array(1)
   var a2 = new Array(0)
@@ -23,13 +33,14 @@ test('default behavior', function (t) {
   var s1 = new String('abc')
   var s2 = new String('')
   var s3 = new String('  ')
-  var n3 = new Number(2)
-  var n4 = new Number(12)
+  var n3 = new Number(-1)
+  var n4 = new Number(-2)
   var n5 = new Number(NaN)
 
   t.deepEqual(fn(n3, n4),        false)
   t.deepEqual(fn(n3, n5),        false)
-  t.deepEqual(fn(2, 12),         false)
+  t.deepEqual(fn(-1, -2),        false)
+  t.deepEqual(fn(NaN, NaN),      false)
   t.deepEqual(fn(-1, NaN),       false)
   t.deepEqual(fn(-1.1, {}),      false)
   t.deepEqual(fn(-0.01, []),     false)
@@ -39,15 +50,10 @@ test('default behavior', function (t) {
   t.deepEqual(fn(1.1, null),     false)
   t.deepEqual(fn(-0, undefined), false)
   t.deepEqual(fn(Number.NEGATIVE_INFINITY), false)
-  t.deepEqual(fn(-1, 2),        false)
-  t.deepEqual(fn(-1.1, 2),      false)
-  t.deepEqual(fn(-0.01, 2),     false)
-  t.deepEqual(fn(0.01, 2),      false)
-  t.deepEqual(fn(0, 2),         false)
-  t.deepEqual(fn(1, 2),         false)
-  t.deepEqual(fn(1.1, 2),       false)
-  t.deepEqual(fn(-0, 2),        false)
-  t.deepEqual(fn(Number.NEGATIVE_INFINITY, 2), false)
+
+  t.deepEqual(fn(2, 2),         false)
+  t.deepEqual(fn(12, 2),        false)
+  t.deepEqual(fn(Number.POSITIVE_INFINITY, 2), false)
   t.deepEqual(fn(NaN, 2),       false)
   t.deepEqual(fn(true, 2),      false)
   t.deepEqual(fn(false, 2),     false)
@@ -75,5 +81,18 @@ test('default behavior', function (t) {
   t.deepEqual(fn(Math, 2),      false)
   t.deepEqual(fn(new Date),     false)
   t.deepEqual(fn(arguments, 2), false)
+  t.end()
+})
+
+test('is-lt safe true', function (t) {
+
+  // the end of special case for new Number(2)
+  var n1 = new Number(-1)
+  var n2 = new Number(2)
+  var n3 = new Number(NaN)
+  t.deepEqual(fn(n1, n2, true), true)
+  t.deepEqual(fn(n2, n1, true), false)
+  t.deepEqual(fn(n1, n3, true), false)
+  t.deepEqual(fn(n3, n1, true), false)
   t.end()
 })

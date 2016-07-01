@@ -1,7 +1,8 @@
-const fn = Object.prototype.toString
-
-module.exports = function(data) {
-  if (typeof data === 'number') return data !== data
-  if (data != null && Object.getPrototypeOf(data) === Number.prototype) return isNaN(data)
+module.exports = function(data, safe) {
+  if (data == null) return false
+  if (safe === true) {
+    if (Object.getPrototypeOf(data) === Number.prototype) return isNaN(data)
+  }
+  else if (typeof data === 'number') return data !== data
   return false
 }

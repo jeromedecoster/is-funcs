@@ -1,18 +1,19 @@
-const fn = require('../is-integer')
+const fn = require('../is-boolean')
 const test = require('tape')
 
-test('default behavior', function (t) {
+test('is-boolean default behavior', function (t) {
 
-  var n1 = new Number(12)
+  // special case...
+  // should be true, but nobody creates new Boolean(true)
+  // so, ignored to speed up the function
+  var b1 = new Boolean(true)
+  var b2 = new Boolean(false)
+  t.deepEqual(fn(b1), false)
+  t.deepEqual(fn(b2), false)
+  // ...end of special case
 
-  t.deepEqual(fn(12),        true)
-  t.deepEqual(fn(-1),        true)
-  t.deepEqual(fn(0),         true)
-  t.deepEqual(fn(-0),        true)
-  t.deepEqual(fn(1),         true)
-  t.deepEqual(fn(n1),        true)
-  t.deepEqual(fn(Number.POSITIVE_INFINITY), true)
-  t.deepEqual(fn(Number.NEGATIVE_INFINITY), true)
+  t.deepEqual(fn(true),  true)
+  t.deepEqual(fn(false), true)
 
   var a1 = new Array(1)
   var a2 = new Array(0)
@@ -26,20 +27,7 @@ test('default behavior', function (t) {
   var s1 = new String('abc')
   var s2 = new String('')
   var s3 = new String('  ')
-  var n2 = new Number(12.3)
-  var n3 = new Number(NaN)
-  var b1 = new Boolean(true)
-  var b2 = new Boolean(false)
 
-  t.deepEqual(fn(b1),        false)
-  t.deepEqual(fn(b2),        false)
-  t.deepEqual(fn(n2),        false)
-  t.deepEqual(fn(n3),        false)
-  t.deepEqual(fn(-1.1),      false)
-  t.deepEqual(fn(1.1),       false)
-  t.deepEqual(fn(NaN),       false)
-  t.deepEqual(fn(true),      false)
-  t.deepEqual(fn(false),     false)
   t.deepEqual(fn([1]),       false)
   t.deepEqual(fn(a1),        false)
   t.deepEqual(fn(a2),        false)
@@ -56,6 +44,15 @@ test('default behavior', function (t) {
   t.deepEqual(fn(s1),        false)
   t.deepEqual(fn(s2),        false)
   t.deepEqual(fn(s3),        false)
+  t.deepEqual(fn(12),        false)
+  t.deepEqual(fn(-1.1),      false)
+  t.deepEqual(fn(-1),        false)
+  t.deepEqual(fn(0),         false)
+  t.deepEqual(fn(1),         false)
+  t.deepEqual(fn(1.1),       false)
+  t.deepEqual(fn(NaN),       false)
+  t.deepEqual(fn(Number.POSITIVE_INFINITY), false)
+  t.deepEqual(fn(Number.NEGATIVE_INFINITY), false)
   t.deepEqual(fn(/./),       false)
   t.deepEqual(fn(null),      false)
   t.deepEqual(fn(undefined), false)
@@ -66,3 +63,15 @@ test('default behavior', function (t) {
   t.deepEqual(fn(arguments), false)
   t.end()
 })
+
+test('is-boolean safe true', function (t) {
+
+  // the end of special case for new Boolean(true)
+  var b1 = new Boolean(true)
+  var b2 = new Boolean(false)
+  t.deepEqual(fn(null, true), false)
+  t.deepEqual(fn(b1,   true), true)
+  t.deepEqual(fn(b2,   true), true)
+  t.end()
+})
+

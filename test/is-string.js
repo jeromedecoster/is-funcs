@@ -1,13 +1,17 @@
 const fn = require('../is-string')
 const test = require('tape')
 
-test('default behavior', function (t) {
+test('is-string default behavior', function (t) {
 
+  // special case...
+  // should be true, but nobody creates new String('abc')
+  // so, ignored to speed up the function
   var s1 = new String('abc')
+  t.deepEqual(fn(s1), false)
+  // ...end of special case
 
   t.deepEqual(fn('abc'),     true)
   t.deepEqual(fn(' a '),     true)
-  t.deepEqual(fn(s1),        true)
 
   var s2 = new String('')
   var s3 = new String('  ')
@@ -52,17 +56,23 @@ test('default behavior', function (t) {
   t.end()
 })
 
-test('check true', function (t) {
+test('is-string check true', function (t) {
 
+  // special case...
+  // should be true, but nobody creates new String('abc') or new Boolean(true)
+  // so, ignored to speed up the function
   var s1 = new String('abc')
   var b1 = new Boolean(true)
+  t.deepEqual(fn(s1,    true), false)
+  t.deepEqual(fn(s1,    b1),   false)
+  t.deepEqual(fn('',    b1),   true)
+  t.deepEqual(fn('   ', b1),   true)
+  // ...end of special case
 
   t.deepEqual(fn('abc', true), true)
   t.deepEqual(fn('abc', b1),   true)
   t.deepEqual(fn(' a ', true), true)
   t.deepEqual(fn(' a ', b1),   true)
-  t.deepEqual(fn(s1,    true), true)
-  t.deepEqual(fn(s1,    b1),   true)
 
   var o1 = new Object()
   o1.a = 2
@@ -75,9 +85,7 @@ test('check true', function (t) {
   var s3 = new String('  ')
 
   t.deepEqual(fn('',        true), false)
-  t.deepEqual(fn('',        b1),   false)
   t.deepEqual(fn('   ',     true), false)
-  t.deepEqual(fn('   ',     b1),   false)
   t.deepEqual(fn(s2,        true), false)
   t.deepEqual(fn(s3,        true), false)
   t.deepEqual(fn({a:1},     true), false)
@@ -103,23 +111,27 @@ test('check true', function (t) {
   t.end()
 })
 
-test('check false', function (t) {
+test('is-string check false', function (t) {
 
+  // special case...
+  // should be true, but nobody creates new String('abc') or new Boolean(true)
+  // so, ignored to speed up the function
   var s1 = new String('abc')
   var s2 = new String('')
   var s3 = new String('  ')
   var b1 = new Boolean(false)
+  t.deepEqual(fn(s1,    false), false)
+  t.deepEqual(fn(s1,    b1),    false)
+  t.deepEqual(fn(s2,    false), false)
+  t.deepEqual(fn(s2,    b1),    false)
+  t.deepEqual(fn(s3,    false), false)
+  t.deepEqual(fn(s3,    b1),    false)
+  // ...end of special case
 
   t.deepEqual(fn('abc', false), true)
   t.deepEqual(fn('abc', b1),    true)
   t.deepEqual(fn(' a ', false), true)
   t.deepEqual(fn(' a ', b1),    true)
-  t.deepEqual(fn(s1,    false), true)
-  t.deepEqual(fn(s1,    b1),    true)
-  t.deepEqual(fn(s2,    false), true)
-  t.deepEqual(fn(s2,    b1),    true)
-  t.deepEqual(fn(s3,    false), true)
-  t.deepEqual(fn(s3,    b1),    true)
   t.deepEqual(fn('',    false), true)
   t.deepEqual(fn('',    b1),    true)
   t.deepEqual(fn('   ', false), true)
@@ -153,5 +165,23 @@ test('check false', function (t) {
   t.deepEqual(fn(Math,      false), false)
   t.deepEqual(fn(new Date,  false), false)
   t.deepEqual(fn(arguments, false), false)
+  t.end()
+})
+
+test('is-string safe true', function (t) {
+
+  var s1 = new String('abc')
+  var s2 = new String('')
+  var s3 = new String('  ')
+
+  // the end of special case for new String('abc')
+  t.deepEqual(fn(null, true,  true), false)
+  t.deepEqual(fn(null, false, true), false)
+  t.deepEqual(fn(s1, true,  true), true)
+  t.deepEqual(fn(s1, false, true), true)
+  t.deepEqual(fn(s2, true,  true), false)
+  t.deepEqual(fn(s2, false, true), true)
+  t.deepEqual(fn(s3, true,  true), false)
+  t.deepEqual(fn(s3, false, true), true)
   t.end()
 })

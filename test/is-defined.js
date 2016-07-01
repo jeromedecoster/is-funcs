@@ -1,7 +1,7 @@
 const fn = require('../is-defined')
 const test = require('tape')
 
-test('default behavior', function (t) {
+test('is-defined default behavior', function (t) {
 
   var b1 = new Boolean(true)
   var b2 = new Boolean(false)

@@ -1,6 +1,6 @@
 # is-funcs
 
-> A very limited subset of type checking functions I use every day
+> A very limited subset of is-* functions I use every day
 
 ## Install
 
@@ -10,47 +10,32 @@ npm i is-funcs
 
 Package [on npm](https://www.npmjs.com/package/is-funcs)
 
-## require
-
-```js
-// require all functions
-const isObject = require('is-funcs').isObject
-
-// require only the single function (recommanded)
-const isObject = require('is-funcs/is-object')
-```
-
 ## API
 
 * [isArray](#isarraydata-check)
-* [isBoolean](#isbooleandata)
+* [isBoolean](#isbooleandata-safe)
 * [isDefined](#isdefineddata)
-* [isFalse](#isfalsedata)
-* [isFloat](#isfloatdata)
+* [isFloat](#isfloatdata-safe)
 * [isFunction](#isfunctiondata)
-* [isGt](#isgtdata-than)
-* [isGte](#isgtedata-than)
-* [isInteger](#isintegerdata)
-* [isLt](#isltdata-than)
-* [isLte](#isltedata-than)
-* [isNaN](#isnandata)
+* [isGt](#isgtdata-than-safe)
+* [isGte](#isgtedata-than-safe)
+* [isInteger](#isintegerdata-safe)
+* [isLt](#isltdata-than-safe)
+* [isLte](#isltedata-than-safe)
+* [isNaN](#isnandata-safe)
 * [isNode](#isnodedata)
-* [isNumber](#isnumberdata-check)
-* [isObject](#isobjectdata-check)
-* [isString](#isstringdata-check)
-* [isTrue](#istruedata)
-* [setBoolean](#setbooleandata-fallback)
-* [setNumber](#setnumberdata-fallback-min-max)
-* [setString](#setstringdata-fallback-allowed)
-* [toNumber](#tonumberdata-fallback)
+* [isNumber](#isnumberdata-check-safe)
+* [isObject](#isobjectdata-check-safe)
+* [isString](#isstringdata-check-safe)
 
 #### isArray(data, [check])
 
 Check if `data` is an **Array** and his length is > 0
 
-The argument `check` is optional, default to `true`
-
-If `check` is `false`, the length is not tested
+| Argument | Action |
+| :------ | :------- |
+| **data** | the tested `data` |
+| **check** | optional `check`, default to `true`. If `false`, the length is not tested |
 
 ```js
 const isArray = require('is-funcs/is-array')
@@ -70,9 +55,14 @@ isArray([], false)
 
 ---
 
-#### isBoolean(data)
+#### isBoolean(data, [safe])
 
 Check if `data` is a **Boolean**
+
+| Argument | Action |
+| :------ | :------- |
+| **data** | the tested `data` |
+| **safe** | optional `safe`, default to `false`. If `true`, validate also the `new Boolean()` instance |
 
 ```js
 const isBoolean = require('is-funcs/is-boolean')
@@ -85,6 +75,9 @@ isBoolean(true)
 
 // true
 isBoolean(false)
+
+// true
+isBoolean(new Boolean(false), true)
 ```
 
 ---
@@ -138,28 +131,14 @@ isDefined('a')
 
 ---
 
-#### isFalse(data)
-
-Check if `data` is `false`
-
-```js
-const isFalse = require('is-funcs/is-false')
-
-// true
-isFalse(false)
-
-// true
-isFalse(new Boolean(false))
-
-// false
-isFalse(0)
-```
-
----
-
-#### isFloat(data)
+#### isFloat(data, [safe])
 
 Check if `data` is a float **Number**
+
+| Argument | Action |
+| :------ | :------- |
+| **data** | the tested `data` |
+| **safe** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
 ```js
 const isFloat = require('is-funcs/is-float')
@@ -172,6 +151,9 @@ isFloat(12)
 
 // true
 isFloat(12.3)
+
+// true
+isFloat(new Number(12.3), true)
 ```
 
 ---
@@ -192,9 +174,15 @@ isFunction(function() {})
 
 ---
 
-#### isGt(data, than)
+#### isGt(data, than, [safe])
 
 Check if `data` is a greater than `than`
+
+| Argument | Action |
+| :------ | :------- |
+| **data** | the tested `data` |
+| **than** | the reference `than` |
+| **safe** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
 ```js
 const isGt = require('is-funcs/is-gt')
@@ -204,13 +192,22 @@ isGt(2, 1)
 
 // false
 isGt(2, 3)
+
+// true
+isGt(new Number(2), 1, true)
 ```
 
 ---
 
-#### isGte(data, than)
+#### isGte(data, than, [safe])
 
 Check if `data` is a greater than or equal `than`
+
+| Argument | Action |
+| :------ | :------- |
+| **data** | the tested `data` |
+| **than** | the reference `than` |
+| **safe** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
 ```js
 const isGte = require('is-funcs/is-gte')
@@ -223,13 +220,21 @@ isGte(2, 2)
 
 // false
 isGte(2, 3)
+
+// true
+isGte(new Number(2), 2, true)
 ```
 
 ---
 
-#### isInteger(data)
+#### isInteger(data, [safe])
 
 Check if `data` is an integer **Number**
+
+| Argument | Action |
+| :------ | :------- |
+| **data** | the tested `data` |
+| **safe** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
 ```js
 const isInteger = require('is-funcs/is-integer')
@@ -239,13 +244,22 @@ isGt(2)
 
 // false
 isGt(2.34)
+
+// true
+isGt(new Number(2), true)
 ```
 
 ---
 
-#### isLt(data, than)
+#### isLt(data, than, [safe])
 
 Check if `data` is a lower than `than`
+
+| Argument | Action |
+| :------ | :------- |
+| **data** | the tested `data` |
+| **than** | the reference `than` |
+| **safe** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
 ```js
 const isLt = require('is-funcs/is-lt')
@@ -255,13 +269,22 @@ isLt(1, 2)
 
 // false
 isLt(3, 2)
+
+// true
+isLt(new Number(1), 2, true)
 ```
 
 ---
 
-#### isLte(data, than)
+#### isLte(data, than, [safe])
 
 Check if `data` is a lower than or equal `than`
+
+| Argument | Action |
+| :------ | :------- |
+| **data** | the tested `data` |
+| **than** | the reference `than` |
+| **safe** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
 ```js
 const isLte = require('is-funcs/is-lte')
@@ -274,13 +297,21 @@ isLte(2, 2)
 
 // false
 isLte(3, 2)
+
+// true
+isLte(new Number(1), 2, true)
 ```
 
 ---
 
-#### isNaN(data)
+#### isNaN(data, [safe])
 
 Check if `data` is a **real** `NaN` **Number**
+
+| Argument | Action |
+| :------ | :------- |
+| **data** | the tested `data` |
+| **safe** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
 ```js
 const isnan = require('is-funcs/is-nan')
@@ -288,14 +319,14 @@ const isnan = require('is-funcs/is-nan')
 // true
 isnan(NaN)
 
-// true
-isnan(new Number(NaN))
-
 // false
 isnan('abc')
 
 // default isNaN return true
 isNaN('abc')
+
+// true
+isnan(new Number(NaN), true)
 ```
 
 ---
@@ -319,13 +350,15 @@ isNode(document.createElement('div'))
 
 ---
 
-#### isNumber(data, [check])
+#### isNumber(data, [check], [safe])
 
 Check if `data` is a **Number**, not equals to NaN
 
-The argument `check` is optional, default to `true`
-
-If `check` is `false`, the `isNaN` step is ignored
+| Argument | Action |
+| :------ | :------- |
+| **data** | the tested `data` |
+| **check** | optional `check`, default to `true`. If `false`, the `isNaN` step is ignored |
+| **safe** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
 ```js
 const isNumber = require('is-funcs/is-number')
@@ -341,17 +374,24 @@ isNumber(2.34)
 
 // false
 isNumber(NaN)
+
+// true
+isNumber(new Number(1), true, true)
 ```
 
 ---
 
-#### isObject(data, [check])
+#### isObject(data, [check], [safe])
 
 Check if `data` is an **Plain Object** and has at least 1 key
 
-The argument `check` is optional, default to `true`
+| Argument | Action |
+| :------ | :------- |
+| **data** | the tested `data` |
+| **check** | optional `check`, default to `true`. If `false`, the keys count is not tested |
+| **safe** | optional `safe`, default to `false`. If `true`, validate also the `new Object()` instance |
 
-If `check` is `false`, the keys count is not tested
+**note:** function `arguments` is evaluted as plain object. Set `safe` to `true` if you want exclude this possibility
 
 ```js
 const isObject = require('is-funcs/is-object')
@@ -367,17 +407,22 @@ isObject({})
 
 // true
 isObject({}, false)
+
+// true
+isObject(new Object({a:1}), true, true)
 ```
 
 ---
 
-#### isString(data, [check])
+#### isString(data, [check], [safe])
 
 Check if `data` is an **String** and his trimmed length is > 0
 
-The argument `check` is optional, default to `true`
-
-If `check` is `false`, the trimmed length is not tested
+| Argument | Action |
+| :------ | :------- |
+| **data** | the tested `data` |
+| **check** | optional `check`, default to `true`. If `false`, trimmed length is not tested |
+| **safe** | optional `safe`, default to `false`. If `true`, validate also the `new String()` instance |
 
 ```js
 const isString = require('is-funcs/is-string')
@@ -396,138 +441,16 @@ isString('  ')
 
 // true
 isString('  ', false)
-```
-
----
-
-#### isTrue(data)
-
-Check if `data` is `true`
-
-```js
-const isTrue = require('is-funcs/is-true')
 
 // true
-isTrue(true)
-
-// true
-isTrue(new Boolean(true))
-
-// false
-isTrue(1)
+isString(new String('abc'), true, true)
 ```
 
----
+## Note
 
-#### setBoolean(data, [fallback])
+The `safe` option, disabled by default, is here to cover extreme cases
 
-Check if `data` is a **Boolean**
-
-If yes, return `data` otherwise return `fallback`
-
-The argument `fallback` is optional, default to `false`
-
-`fallback` must be a `boolean` or strictly equal to `null`
-
-```js
-const setBoolean = require('is-funcs/set-boolean')
-
-function test(opts) {
-  opts = opts || {}
-
-  // option silent will be `true` if not defined
-  opts.silent = setBoolean(opts.silent, true)
-
-  // delete value is `null` is defined
-  if (opts.silent === null) delete opts.silent
-}
-```
-
----
-
-#### setNumber(data, [fallback], [min], [max])
-
-Check if `data` is a **Number**
-
-If yes, return `data` otherwise return `fallback`
-
-The argument `fallback` is optional, default to `0`
-
-`fallback` must be a `number` or strictly equal to `null`
-
-`data` can be clamped between `min` and `max`
-
-```js
-const setNumber = require('is-funcs/set-number')
-
-function test(opts) {
-  opts = opts || {}
-
-  // option `delay` will be `50` if not defined
-  opts.delay = setNumber(opts.delay, 50)
-
-  // option `time` will be 25 min
-  opts.time = setNumber(opts.time, 50, 25)
-}
-```
-
----
-
-#### setString(data, [fallback], [allowed])
-
-Check if `data` is a **String**
-
-If yes, return `data` otherwise return `fallback`
-
-The argument `fallback` is optional, default to `''`
-
-`fallback` must be a `string` or strictly equal to `null`
-
-`allowed` can be a string or an array of accepted values. If `data` is not found in `allowed`, the `fallback` is returned
-
-```js
-const setString = require('is-funcs/set-string')
-
-function test(opts) {
-  opts = opts || {}
-
-  // option `ignore` can be 'resize' or 'scroll', fallback to 'resize'
-  opts.ignore = setString(opts.ignore, 'resize', 'resize scroll')
-
-  // using the array form
-  opts.ignore = setString(opts.ignore, 'resize', ['resize', 'scroll'])
-}
-```
-
----
-
-#### toNumber(data, [fallback])
-
-Check if `data` is a **String representation** of a **Number**
-
-If yes, convert and return the numeric value otherwise return `fallback`
-
-The argument `fallback` is optional, default to `undefined`
-
-`fallback` must be a `number` or strictly equal to `null`
-
-If `data` is already a number, return `data`
-
-```js
-const toNumber = require('is-funcs/to-number')
-
-// 1.23
-toNumber('1.23')
-
-// undefined
-toNumber('0.1s')
-
-// 1
-toNumber('3.45s', 1)
-
-// -1.23
-toNumber(-1.23)
-```
+99.99% of the time, you don't need the `safe` option
 
 ## License
 

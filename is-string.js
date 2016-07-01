@@ -1,11 +1,11 @@
-const isTrue = require('./is-true')
-
-module.exports = function(data, check) {
+module.exports = function(data, check, safe) {
   if (data == null) return false
-  if (typeof data !== 'string'
-    && Object.getPrototypeOf(data) !== String.prototype) return false
+  if (safe === true) {
+    if (Object.getPrototypeOf(data) !== String.prototype) return false
+  }
+  else if (typeof data !== 'string') return false
 
-  return check === undefined || isTrue(check)
+  return check === undefined || check === true
     ? data.trim().length > 0
     : true
 }

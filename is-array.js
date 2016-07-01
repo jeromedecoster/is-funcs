@@ -1,8 +1,6 @@
-const isTrue = require('./is-true')
-
 module.exports = function(data, check) {
-  if (data == null || Object.getPrototypeOf(data) !== Array.prototype) return false
-  return check === undefined || isTrue(check)
+  if (Array.isArray(data) === false) return false
+  return check === undefined || check === true
     ? data.length > 0
     : true
 }
