@@ -1,7 +1,6 @@
 module.exports = function(data, check, safe) {
-  if (data == null) return false
   if (safe === true) {
-    if (Object.getPrototypeOf(data) !== String.prototype) return false
+    if (data == null || Object.getPrototypeOf(data) !== String.prototype) return false
   }
   else if (typeof data !== 'string') return false
 

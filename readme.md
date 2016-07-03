@@ -62,7 +62,7 @@ Check if `data` is a **Boolean**
 | Argument | Action |
 | :------ | :------- |
 | **data** | the tested `data` |
-| **safe** | optional `safe`, default to `false`. If `true`, validate also the `new Boolean()` instance |
+| **[safe](#note)** | optional `safe`, default to `false`. If `true`, validate also the `new Boolean()` instance |
 
 ```js
 const isBoolean = require('is-funcs/is-boolean')
@@ -133,12 +133,12 @@ isDefined('a')
 
 #### isFloat(data, [safe])
 
-Check if `data` is a float **Number**
+Check if `data` is a **Float Number**
 
 | Argument | Action |
 | :------ | :------- |
 | **data** | the tested `data` |
-| **safe** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
+| **[safe](#note)** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
 ```js
 const isFloat = require('is-funcs/is-float')
@@ -182,7 +182,7 @@ Check if `data` is a greater than `than`
 | :------ | :------- |
 | **data** | the tested `data` |
 | **than** | the reference `than` |
-| **safe** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
+| **[safe](#note)** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
 ```js
 const isGt = require('is-funcs/is-gt')
@@ -207,7 +207,7 @@ Check if `data` is a greater than or equal `than`
 | :------ | :------- |
 | **data** | the tested `data` |
 | **than** | the reference `than` |
-| **safe** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
+| **[safe](#note)** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
 ```js
 const isGte = require('is-funcs/is-gte')
@@ -229,12 +229,12 @@ isGte(new Number(2), 2, true)
 
 #### isInteger(data, [safe])
 
-Check if `data` is an integer **Number**
+Check if `data` is an **Integer Number**
 
 | Argument | Action |
 | :------ | :------- |
 | **data** | the tested `data` |
-| **safe** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
+| **[safe](#note)** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
 ```js
 const isInteger = require('is-funcs/is-integer')
@@ -259,7 +259,7 @@ Check if `data` is a lower than `than`
 | :------ | :------- |
 | **data** | the tested `data` |
 | **than** | the reference `than` |
-| **safe** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
+| **[safe](#note)** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
 ```js
 const isLt = require('is-funcs/is-lt')
@@ -284,7 +284,7 @@ Check if `data` is a lower than or equal `than`
 | :------ | :------- |
 | **data** | the tested `data` |
 | **than** | the reference `than` |
-| **safe** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
+| **[safe](#note)** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
 ```js
 const isLte = require('is-funcs/is-lte')
@@ -311,7 +311,7 @@ Check if `data` is a **real** `NaN` **Number**
 | Argument | Action |
 | :------ | :------- |
 | **data** | the tested `data` |
-| **safe** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
+| **[safe](#note)** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
 ```js
 const isnan = require('is-funcs/is-nan')
@@ -350,15 +350,14 @@ isNode(document.createElement('div'))
 
 ---
 
-#### isNumber(data, [check], [safe])
+#### isNumber(data, [safe])
 
-Check if `data` is a **Number**, not equals to NaN
+Check if `data` is a **Number**, not equals to `NaN
 
 | Argument | Action |
 | :------ | :------- |
 | **data** | the tested `data` |
-| **check** | optional `check`, default to `true`. If `false`, the `isNaN` step is ignored |
-| **safe** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
+| **[safe](#note)** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
 ```js
 const isNumber = require('is-funcs/is-number')
@@ -376,7 +375,7 @@ isNumber(2.34)
 isNumber(NaN)
 
 // true
-isNumber(new Number(1), true, true)
+isNumber(new Number(1), true)
 ```
 
 ---
@@ -389,7 +388,7 @@ Check if `data` is an **Plain Object** and has at least 1 key
 | :------ | :------- |
 | **data** | the tested `data` |
 | **check** | optional `check`, default to `true`. If `false`, the keys count is not tested |
-| **safe** | optional `safe`, default to `false`. If `true`, validate also the `new Object()` instance |
+| **[safe](#note)** | optional `safe`, default to `false`. If `true`, validate also the `new Object()` instance |
 
 **note:** function `arguments` is evaluted as plain object. Set `safe` to `true` if you want exclude this possibility
 
@@ -422,7 +421,7 @@ Check if `data` is an **String** and his trimmed length is > 0
 | :------ | :------- |
 | **data** | the tested `data` |
 | **check** | optional `check`, default to `true`. If `false`, trimmed length is not tested |
-| **safe** | optional `safe`, default to `false`. If `true`, validate also the `new String()` instance |
+| **[safe](#note)** | optional `safe`, default to `false`. If `true`, validate also the `new String()` instance |
 
 ```js
 const isString = require('is-funcs/is-string')
