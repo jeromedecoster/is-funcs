@@ -14,7 +14,7 @@ Package [on npm](https://www.npmjs.com/package/is-funcs)
 
 * [isArray](#isarraydata-check)
 * [isBoolean](#isbooleandata-safe)
-* [isDefined](#isdefineddata)
+* [isDefined](#isdefineddata-safe)
 * [isFloat](#isfloatdata-safe)
 * [isFunction](#isfunctiondata)
 * [isGt](#isgtdata-than-safe)
@@ -26,6 +26,7 @@ Package [on npm](https://www.npmjs.com/package/is-funcs)
 * [isNode](#isnodedata)
 * [isNumber](#isnumberdata-check-safe)
 * [isObject](#isobjectdata-check-safe)
+* [isRegexp](#isregexpdata)
 * [isString](#isstringdata-check-safe)
 
 #### isArray(data, [check])
@@ -82,21 +83,30 @@ isBoolean(new Boolean(false), true)
 
 ---
 
-#### isDefined(data)
+#### isDefined(data, [safe])
 
 Check if `data` is defined
 
-Return `true` if
+| Argument | Action |
+| :------ | :------- |
+| **data** | the tested `data` |
+| **[safe](#note)** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
-* `data` is a **Number** and it's not `NaN`
-* `data` is a **Plain Object** and has at least 1 key
-* `data` is an **Array** and is length is > 0
-* `data` is a **String** and is trimmed length is > 0
+Return `false` if
 
-Otherwise return `false`
+* `data` is `undefined` or `null`
+* `data` is a **Number** and it's `NaN`
+
+Otherwise return `true`
 
 ```js
 const isDefined = require('is-funcs/is-defined')
+
+// false
+isDefined(undefined)
+
+// false
+isDefined(null)
 
 // false
 isDefined(NaN)
@@ -105,28 +115,16 @@ isDefined(NaN)
 isDefined(0)
 
 // true
-isDefined(1)
-
-// false
-isDefined({})
+isDefined(false)
 
 // true
-isDefined({a:1})
-
-// false
-isDefined([])
-
-// true
-isDefined(['a'])
-
-// false
 isDefined('')
 
-// false
-isDefined(' ')
-
 // true
-isDefined('a')
+isDefined(new Number(NaN))
+
+// false
+isDefined(new Number(NaN), true)
 ```
 
 ---
@@ -352,7 +350,7 @@ isNode(document.createElement('div'))
 
 #### isNumber(data, [safe])
 
-Check if `data` is a **Number**, not equals to `NaN
+Check if `data` is a **Number**, not equals to `NaN`
 
 | Argument | Action |
 | :------ | :------- |
@@ -409,6 +407,29 @@ isObject({}, false)
 
 // true
 isObject(new Object({a:1}), true, true)
+```
+
+---
+
+#### isRegexp(data)
+
+Check if `data` is a **RegExp**
+
+
+```js
+const isRegexp = require('is-funcs/is-regexp')
+
+// false
+isRegexp(true)
+
+// false
+isRegexp('/./')
+
+// true
+isRegexp(/./)
+
+// true
+isRegexp(new RegExp('/./'))
 ```
 
 ---

@@ -85,6 +85,32 @@ function isObject2(data, check) {
     : true
 }
 
+function isDefined1(data) {
+  if (data == null) return false
+  if (typeof data === 'number') return data === data
+  if (Object.getPrototypeOf(data) == Number.prototype) return isNaN(data) == false
+  return true
+}
+
+function isDefined2(data) {
+  if (data == null) return false
+  if (typeof data === 'number') return data === data
+  if (typeof data === 'string' || Array.isArray(data)) return true
+  if (Object.getPrototypeOf(data) === Number.prototype) return isNaN(data) == false
+  return true
+}
+
+function isRegexp1(data) {
+  return Object.getPrototypeOf(data) === RegExp.prototype
+}
+
+function isRegexp2(data) {
+  return typeof data === 'object'
+    && typeof data.exec === 'function'
+    && typeof data.source === 'string'
+    && typeof data.global === 'boolean'
+}
+
 ///
 
 var out = document.querySelector('p[out]')
@@ -256,12 +282,78 @@ function object2(arg) {
   }
 }
 
+function defined1(arg) {
+  return function() {
+    return new Promise(function(resolve) {
+      var now = Date.now()
+      var res
+      var n = count
+      for (var i = 0; i < n; i++) {
+        res = isDefined1(arg)
+      }
+
+      log('defined1: ' + (Date.now() - now) + ' res:' + res)
+      next(resolve)
+    })
+  }
+}
+
+function defined2(arg) {
+  return function() {
+    return new Promise(function(resolve) {
+      var now = Date.now()
+      var res
+      var n = count
+      for (var i = 0; i < n; i++) {
+        res = isDefined2(arg)
+      }
+
+      log('defined2: ' + (Date.now() - now) + ' res:' + res)
+      next(resolve)
+    })
+  }
+}
+
+function regexp1(arg) {
+  return function() {
+    return new Promise(function(resolve) {
+      var now = Date.now()
+      var res
+      var n = count
+      for (var i = 0; i < n; i++) {
+        res = isRegexp1(arg)
+      }
+
+      log('regexp1: ' + (Date.now() - now) + ' res:' + res)
+      next(resolve)
+    })
+  }
+}
+
+function regexp2(arg) {
+  return function() {
+    return new Promise(function(resolve) {
+      var now = Date.now()
+      var res
+      var n = count
+      for (var i = 0; i < n; i++) {
+        res = isRegexp2(arg)
+      }
+
+      log('regexp2: ' + (Date.now() - now) + ' res:' + res)
+      next(resolve)
+    })
+  }
+}
+
 var o = Object.create(null)
 o.a = 1
+var r = new RegExp('')
 
 Promise.resolve()
 .then(start)
 .then(wait(true))
+
 .then(array1([1]))
 .then(wait)
 .then(array1([1]))
@@ -343,6 +435,48 @@ Promise.resolve()
 .then(object2('abc'))
 .then(wait)
 .then(object2('abc'))
+.then(wait(true))
+
+.then(defined1('abc'))
+.then(wait)
+.then(defined1('abc'))
+.then(wait)
+.then(defined1(0))
+.then(wait)
+.then(defined1(0))
+.then(wait)
+.then(defined2('abc'))
+.then(wait)
+.then(defined2('abc'))
+.then(wait)
+.then(defined2(0))
+.then(wait)
+.then(defined2(0))
+.then(wait(true))
+
+.then(regexp1(/./))
+.then(wait)
+.then(regexp1(/./))
+.then(wait)
+.then(regexp1(r))
+.then(wait)
+.then(regexp1(r))
+.then(wait)
+.then(regexp1('/./'))
+.then(wait)
+.then(regexp1('/./'))
+.then(wait)
+.then(regexp2(/./))
+.then(wait)
+.then(regexp2(/./))
+.then(wait)
+.then(regexp2(r))
+.then(wait)
+.then(regexp2(r))
+.then(wait)
+.then(regexp2('/./'))
+.then(wait)
+.then(regexp2('/./'))
 .then(wait(true))
 
 .then(function() {

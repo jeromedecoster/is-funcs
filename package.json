@@ -1,6 +1,6 @@
 {
   "name": "is-funcs",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "A very limited subset of is-* functions I use every day",
   "repository": "jeromedecoster/is-funcs",
   "files": [
@@ -18,6 +18,7 @@
     "is-node.js",
     "is-number.js",
     "is-object.js",
+    "is-regexp.js",
     "is-string.js"
   ],
   "keywords": [
@@ -37,6 +38,7 @@
     "is-node",
     "is-number",
     "is-object",
+    "is-regexp",
     "is-string"
   ],
   "author": {
@@ -48,12 +50,12 @@
     "start": "budo src/index.js:bundle.js --dir src --host localhost --port 3000 --no-debug",
     "dev": "chokidar '*.js' 'test/*.js' -c 'npm run test'",
     "perf": "budo perf/index.js:bundle.js --dir perf --host localhost --port 3000 --no-debug --live",
-    "test": "tape test/is-*.js | tap-spec || true"
+    "test": "tape test/*.js | tap-spec || true"
   },
   "devDependencies": {
     "budo": "^8.3.0",
     "chokidar-cli": "^1.2.0",
-    "raf-funcs": "^0.3.0",
+    "raf-funcs": "^0.4.0",
     "tap-spec": "^4.1.1",
     "tape": "^4.6.0"
   }

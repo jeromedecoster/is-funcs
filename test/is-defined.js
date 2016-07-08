@@ -3,6 +3,13 @@ const test = require('tape')
 
 test('is-defined default behavior', function (t) {
 
+  // special case...
+  // should be false, but nobody creates new Number(NaN)
+  // so, ignored to speed up the function
+  var n3 = new Number(NaN)
+  t.deepEqual(fn(n3), true)
+  // ...end of special case
+
   var b1 = new Boolean(true)
   var b2 = new Boolean(false)
   var a1 = new Array(1)
@@ -14,6 +21,11 @@ test('is-defined default behavior', function (t) {
   var s1 = new String('abc')
   var n1 = new Number(12)
   var n2 = new Number(12.3)
+  var a2 = new Array(0)
+  var o3 = new Object()
+  var o4 = Object.create(null)
+  var s2 = new String('')
+  var s3 = new String('  ')
 
   t.deepEqual(fn(b1),        true)
   t.deepEqual(fn(b2),        true)
@@ -46,26 +58,35 @@ test('is-defined default behavior', function (t) {
   t.deepEqual(fn(arguments), true)
   t.deepEqual(fn(n1),        true)
   t.deepEqual(fn(n2),        true)
-
-  var a2 = new Array(0)
-  var o3 = new Object()
-  var o4 = Object.create(null)
-  var s2 = new String('')
-  var s3 = new String('  ')
-  var n3 = new Number(NaN)
+  t.deepEqual(fn(o3),        true)
+  t.deepEqual(fn(o4),        true)
+  t.deepEqual(fn([]),        true)
+  t.deepEqual(fn(a2),        true)
+  t.deepEqual(fn(''),        true)
+  t.deepEqual(fn(' '),       true)
+  t.deepEqual(fn(s2),        true)
+  t.deepEqual(fn(s3),        true)
 
   t.deepEqual(fn(NaN),       false)
-  t.deepEqual(fn(o3),        false)
-  t.deepEqual(fn(o4),        false)
-  t.deepEqual(fn([]),        false)
-  t.deepEqual(fn(a2),        false)
-  t.deepEqual(fn(''),        false)
-  t.deepEqual(fn(' '),       false)
-  t.deepEqual(fn(s2),        false)
-  t.deepEqual(fn(s3),        false)
-  t.deepEqual(fn(n3),        false)
   t.deepEqual(fn(null),      false)
   t.deepEqual(fn(undefined), false)
   t.deepEqual(fn(),          false)
+  t.end()
+})
+
+test('is-defined safe true', function (t) {
+
+  // the end of special case for new Number(NaN)
+  var n1 = new Number(12.3)
+  var n2 = new Number(NaN)
+  t.deepEqual(fn(n1, true), true)
+  t.deepEqual(fn(n2, true), false)
+
+  t.deepEqual(fn('',        true), true)
+  t.deepEqual(fn([],        true), true)
+  t.deepEqual(fn({},        true), true)
+  t.deepEqual(fn(NaN,       true), false)
+  t.deepEqual(fn(null,      true), false)
+  t.deepEqual(fn(undefined, true), false)
   t.end()
 })
