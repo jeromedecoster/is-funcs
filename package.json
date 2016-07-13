@@ -1,6 +1,6 @@
 {
   "name": "is-funcs",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "A very limited subset of is-* functions I use every day",
   "repository": "jeromedecoster/is-funcs",
   "files": [
@@ -47,7 +47,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "start": "budo src/index.js:bundle.js --dir src --host localhost --port 3000 --no-debug",
+    "start": "budo src/index.js:bundle.js --dir src --host localhost --port 3000 --no-debug --live",
     "dev": "chokidar '*.js' 'test/*.js' -c 'npm run test'",
     "perf": "budo perf/index.js:bundle.js --dir perf --host localhost --port 3000 --no-debug --live",
     "test": "tape test/*.js | tap-spec || true"

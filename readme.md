@@ -23,7 +23,7 @@ Package [on npm](https://www.npmjs.com/package/is-funcs)
 * [isLt](#isltdata-than-safe)
 * [isLte](#isltedata-than-safe)
 * [isNaN](#isnandata-safe)
-* [isNode](#isnodedata)
+* [isNode](#isnodedata-check)
 * [isNumber](#isnumberdata-check-safe)
 * [isObject](#isobjectdata-check-safe)
 * [isRegexp](#isregexpdata)
@@ -94,8 +94,9 @@ Check if `data` is defined
 
 Return `false` if
 
-* `data` is `undefined` or `null`
-* `data` is a **Number** and it's `NaN`
+* `data` is `undefined`
+* `data` is `null`
+* `data` is `NaN`
 
 Otherwise return `true`
 
@@ -329,12 +330,22 @@ isnan(new Number(NaN), true)
 
 ---
 
-#### isNode(data)
+#### isNode(data, [check])
 
 Check if `data` is a **Html Element** landed in the `document.body`
 
 * data nodeType must be 1
-* non visual element like `style` or `style` are excluded
+* non visual element like `style` or `script` are excluded
+
+| Argument | Action |
+| :------ | :------- |
+| **data** | the tested `data` |
+| **check** | optional `check`, default to `true`. If `false`, the following tests are ignored |
+
+If `check` is `false`
+
+* non visual element are ignored. Testing `style` or `script` nodes now return `true`
+* landed in `document.body` test is ignored
 
 ```js
 const isNode = require('is-funcs/is-node')
@@ -344,6 +355,9 @@ isNode(document.querySelector('div'))
 
 // false
 isNode(document.createElement('div'))
+
+// true
+isNode(document.createElement('script'), false)
 ```
 
 ---

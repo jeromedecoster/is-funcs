@@ -1,37 +1,74 @@
+const fn = require('../is-node')
+const test = require('tape')
 
-const isNode = require('../is-node')
-
-const body = document.querySelector('body')
-
-function colored(msg) {
-  console.log('%c-- ' + msg + ' --', 'color:green; background-color:yellow')
+function qs(selector) {
+  return document.querySelector('#test').querySelector(selector)
 }
 
-function test(el) {
-  console.log(el.nodeName, 'isNode:', isNode(el))
+function qi(index) {
+  return document.querySelectorAll('#test > *')[index]
 }
 
-function onload() {
-  colored('body.children')
-  var els = body.children
-  for (var i = 0, n = els.length; i < n; i++) {
-    test(els[i])
-  }
+test('is-node', function (t) {
 
-  colored('not body.children')
-  test(document.head)
+  var img      = qs('img')
+  var bub      = qs('bub')
+  var span     = qs('span')
+  var ecomm    = qi(3)
+  var style    = qs('style')
+  var svg      = qi(5)
+  var textarea = qs('textarea')
+  var div      = qs('div')
+  var script   = qs('script')
+  var head     = document.head
+
+  t.equals(fn(img),      true)
+  t.equals(fn(bub),      true)
+  t.equals(fn(span),     true)
+  t.equals(fn(ecomm),    true)
+  t.equals(fn(style),    false)
+  t.equals(fn(svg),      true)
+  t.equals(fn(textarea), true)
+  t.equals(fn(div),      true)
+  t.equals(fn(script),   false)
+  t.equals(fn(head),     false)
 
   var canvas = document.createElement('canvas')
   document.body.parentElement.appendChild(canvas)
-  test(canvas)
 
-  colored('created')
-  test(document.createComment('a comment'))
-  test(document.createTextNode('a text'))
-  test(document.createElement('bib'))
+  t.equals(fn(canvas),        false)
+  t.equals(fn(canvas, true),  false)
+  t.equals(fn(canvas, false), true)
 
-  colored('fake')
-  test({nodeName:'FAKE', nodeType:1})
-}
+  // created
+  var com = document.createComment('a comment')
+  var txt = document.createTextNode('a text')
+  var bib = document.createElement('bib')
+  var scr = document.createElement('script')
+  t.equals(fn(com),        false)
+  t.equals(fn(com, true),  false)
+  t.equals(fn(com, false), false)
+  t.equals(fn(txt),        false)
+  t.equals(fn(txt, true),  false)
+  t.equals(fn(txt, false), false)
+  t.equals(fn(bib),        false)
+  t.equals(fn(bib, true),  false)
+  t.equals(fn(bib, false), true)
+  t.equals(fn(scr),        false)
+  t.equals(fn(scr, true),  false)
+  t.equals(fn(scr, false), true)
 
-setTimeout(onload, 25)
+  var frag = document.createDocumentFragment()
+  var li = document.createElement('li')
+  frag.appendChild(li)
+  t.equals(fn(frag.firstChild),        false)
+  t.equals(fn(frag.firstChild, true),  false)
+  t.equals(fn(frag.firstChild, false), true)
+
+  // fake
+  var fak = {nodeName:'FAKE', nodeType:1}
+  t.equals(fn(fak),        false)
+  t.equals(fn(fak, true),  false)
+  t.equals(fn(fak, false), false)
+  t.end()
+})
