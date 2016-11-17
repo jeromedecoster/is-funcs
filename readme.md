@@ -14,6 +14,7 @@ Package [on npm](https://www.npmjs.com/package/is-funcs)
 
 * [isArray](#isarraydata-check)
 * [isBoolean](#isbooleandata-safe)
+* [isDate](#isdatedata)
 * [isDefined](#isdefineddata-safe)
 * [isFloat](#isfloatdata-safe)
 * [isFunction](#isfunctiondata)
@@ -79,6 +80,32 @@ isBoolean(false)
 
 // true
 isBoolean(new Boolean(false), true)
+```
+
+---
+
+#### isDate(data)
+
+Check if `data` is a valid instance of `new Date`
+
+| Argument | Action |
+| :------ | :------- |
+| **data** | the tested `data` |
+
+```js
+const isDate = require('is-funcs/is-date')
+
+// true
+isDate(new Date())
+
+// false, invalid date
+isDate(new Date('-'))
+
+// false
+isDate('2000-01-01')
+
+// false
+isDate(2010)
 ```
 
 ---
