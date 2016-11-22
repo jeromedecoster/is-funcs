@@ -6,5 +6,7 @@ module.exports = function(data, safe) {
     else return false
   }
   else if (typeof data !== 'number' || data !== data) return false
-  return data == data >> 0 || data === Infinity || data === -Infinity
+  return data == data >> 0
+    || data === Infinity
+    || data === -Infinity
 }
