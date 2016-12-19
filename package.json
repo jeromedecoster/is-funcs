@@ -52,7 +52,7 @@
     "start": "budo src/index.js:bundle.js --dir src --host localhost --port 3000 --no-debug --live",
     "dev": "chokidar '*.js' 'test/*.js' -c 'npm run test'",
     "perf": "budo perf/index.js:bundle.js --dir perf --host localhost --port 3000 --no-debug --live",
-    "test": "tape test/*.js | tap-spec || true"
+    "test": "tape test/is-str*.js | tap-spec || true"
   },
   "devDependencies": {
     "budo": "^9.2.2",

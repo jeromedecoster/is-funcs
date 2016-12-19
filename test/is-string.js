@@ -1,6 +1,53 @@
 const fn = require('../is-string')
 const test = require('tape')
 
+test('is-string with single argument', (t) => {
+  // return `true`
+  t.true(fn('a'), 'isString("a") → true')
+  t.true(fn(' a '), 'isString(" a ") → true')
+
+  // special case...
+  // should + or - be true, but nobody creates `new String()`
+  // so, ignored to speed up the function
+  t.false(fn(new String('a')), 'isString(new String("a")) → false')
+  t.false(fn(new String(' a ')), 'isString(new String(" a ")) → false')
+
+  // return `false` because we want the trimmed length to be > 0 
+  t.false(fn(''), 'isString("") → false')
+  t.false(fn(' '), 'isString(" ") → false')
+  
+  // return `false`
+  t.false(fn(), 'isString() → false')
+  t.false(fn([]), 'isString([]) → false')
+  t.false(fn(['a']), 'isString(["a"]) → false')
+  t.false(fn({}), 'isString({}) → false')
+  t.false(fn({a:'a'}), 'isString({a:"a"}) → false')
+  t.false(fn(function() {}), 'isString(function() {}) → false')
+  t.false(fn(/./), 'isString(/./) → false')
+  t.false(fn(false), 'isString(false) → false')
+  t.false(fn(true), 'isString(true) → false')
+  t.false(fn(), 'isString() → false')
+  t.false(fn(null), 'isString(null) → false')
+  t.false(fn(undefined), 'isString(undefined) → false')
+  t.false(fn(Math), 'isString(Math) → false')
+  t.false(fn(new Date()), 'isString(new Date()) → false')
+  t.false(fn(arguments), 'isString(arguments) → false')
+  t.end()
+})
+
+test('is-string with multiple arguments', (t) => {
+  // return `true`
+  t.true(fn('a', ' b ', 'c'), 'isString("a", " b ", "c") → true')
+
+  // return `false`
+  t.false(fn('a', ' b ', ''), 'isString("a", " b ", "") → false')
+  t.false(fn(-1.1, 0 , NaN), 'isString(-1.1, 0 , NaN) → false')
+  t.false(fn(-1.1, 0 , undefined), 'isString(-1.1, 0 , undefined) → false')
+  t.false(fn(), 'isString(-1.1, 0 , undefined) → false')
+  t.end()
+})
+
+/*
 test('is-string default behavior', function (t) {
 
   // special case...
@@ -185,3 +232,4 @@ test('is-string safe true', function (t) {
   t.deepEqual(fn(s3, false, true), true)
   t.end()
 })
+*/
