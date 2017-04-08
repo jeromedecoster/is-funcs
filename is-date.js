@@ -1,5 +1,5 @@
 module.exports = function(data) {
-  if (data == null) return false
-  return data instanceof Date
+  return data != null
+    && data instanceof Date
     && data.getTime() === data.getTime()
 }

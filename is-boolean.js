@@ -1,4 +1,3 @@
-module.exports = function(data, safe) {
-  if (safe === true) return data != null && Object.getPrototypeOf(data) === Boolean.prototype
+module.exports = function(data) {
   return data === true || data === false
 }

@@ -1,0 +1,23 @@
+const fn = require('../is-nan')
+
+test('is-nan', () => {
+  expect(fn(NaN)).toBe(true)
+
+  expect(fn(new Number(NaN))).toBe(false)
+  expect(fn([])).toBe(false)
+  expect(fn([1])).toBe(false)
+  expect(fn({a:1})).toBe(false)
+  expect(fn(Object.create(null))).toBe(false)
+  expect(fn('abc')).toBe(false)
+  expect(fn(-1)).toBe(false)
+  expect(fn(0)).toBe(false)
+  expect(fn(1)).toBe(false)
+  expect(fn(null)).toBe(false)
+  expect(fn(undefined)).toBe(false)
+  expect(fn(Infinity)).toBe(false)
+  expect(fn(-Infinity)).toBe(false)
+  expect(fn(/./)).toBe(false)
+  expect(fn(Math)).toBe(false)
+  expect(fn(function() {})).toBe(false)
+  expect(fn(arguments)).toBe(false)
+})

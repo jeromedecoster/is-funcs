@@ -12,79 +12,99 @@ Package [on npm](https://www.npmjs.com/package/is-funcs)
 
 ## API
 
-* [isArray](#isarraydata-check)
-* [isBoolean](#isbooleandata-safe)
-* [isDate](#isdatedata)
-* [isDefined](#isdefineddata-safe)
-* [isFloat](#isfloatdata-safe)
-* [isFunction](#isfunctiondata)
-* [isGt](#isgtdata-than-safe)
-* [isGte](#isgtedata-than-safe)
-* [isInteger](#isintegerdata-safe)
-* [isLt](#isltdata-than-safe)
-* [isLte](#isltedata-than-safe)
-* [isNaN](#isnandata-safe)
-* [isNode](#isnodedata-check)
-* [isNumber](#isnumberdata-check-safe)
-* [isObject](#isobjectdata-check-safe)
-* [isRegexp](#isregexpdata)
-* [isString](#isstringdata-check-safe)
+* [is-array](#is-arraydata-filled)
+* [is-boolean](#is-booleandata)
+* [is-buffer](#is-bufferdata)
+* [is-date](#is-datedata)
+* [is-date-string](#is-date-stringdata)
+* [is-float](#is-floatdata)
+* [is-function](#is-functiondata)
+* [is-gt](#is-gtdata-than)
+* [is-gte](#is-gtedata-than)
+* [is-integer](#is-integerdata)
+* [is-lt](#is-ltdata-than)
+* [is-lte](#is-ltedata-than)
+* [is-nan](#is-nandata)
+* [is-node](#is-nodedata-check)
+* [is-number](#is-numberdata)
+* [is-object](#is-objectdata-filled)
+* [is-regexp](#is-regexpdata)
+* [is-string](#is-stringdata-filled)
 
-#### isArray(data, [check])
+### is-array(data, [filled])
 
-Check if `data` is an **Array** and his length is > 0
+Check if `data` is an **Array**
 
 | Argument | Action |
 | :------ | :------- |
 | **data** | the tested `data` |
-| **check** | optional `check`, default to `true`. If `false`, the length is not tested |
+| **filled** | optional `filled`, default to `false`. If `true`, check length is > 0 |
 
 ```js
-const isArray = require('is-funcs/is-array')
+const isarray = require('is-funcs/is-array')
 
 // false
-isArray({a:1})
+isarray({a:1})
 
 // true
-isArray(['a'])
+isarray(['a'])
+
+// true
+isarray([])
 
 // false
-isArray([])
-
-// true
-isArray([], false)
+isarray([], true)
 ```
 
 ---
 
-#### isBoolean(data, [safe])
+### is-boolean(data)
 
 Check if `data` is a **Boolean**
 
 | Argument | Action |
 | :------ | :------- |
 | **data** | the tested `data` |
-| **[safe](#note)** | optional `safe`, default to `false`. If `true`, validate also the `new Boolean()` instance |
 
 ```js
-const isBoolean = require('is-funcs/is-boolean')
+const isboolean = require('is-funcs/is-boolean')
 
 // false
-isBoolean({a:1})
+isboolean({a:1})
 
 // true
-isBoolean(true)
+isboolean(true)
 
 // true
-isBoolean(false)
-
-// true
-isBoolean(new Boolean(false), true)
+isboolean(false)
 ```
 
 ---
 
-#### isDate(data)
+### is-buffer(data)
+
+Check if `data` is a node **Buffer**
+
+| Argument | Action |
+| :------ | :------- |
+| **data** | the tested `data` |
+
+```js
+const isbuffer = require('is-funcs/is-buffer')
+
+// false
+isbuffer([1])
+
+// false
+isbuffer(Buffer)
+
+// true
+isbuffer(Buffer.from('abc'))
+```
+
+---
+
+### is-date(data)
 
 Check if `data` is a valid instance of `new Date`
 
@@ -93,114 +113,114 @@ Check if `data` is a valid instance of `new Date`
 | **data** | the tested `data` |
 
 ```js
-const isDate = require('is-funcs/is-date')
+const isdate = require('is-funcs/is-date')
 
 // true
-isDate(new Date())
+isdate(new Date())
 
 // false, invalid date
-isDate(new Date('-'))
+isdate(new Date('-'))
 
 // false
-isDate('2000-01-01')
+isdate('2000-01-01')
 
 // false
-isDate(2010)
+isdate(2010)
 ```
 
 ---
 
-#### isDefined(data, [safe])
+### is-date-string(data)
 
-Check if `data` is defined
+Check if `data` is a valid date string representation
 
 | Argument | Action |
 | :------ | :------- |
 | **data** | the tested `data` |
-| **[safe](#note)** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
-Return `false` if
+Date string validation is a nightmare. The browsers have [differents behaviors](http://dygraphs.com/date-formats.html)
 
-* `data` is `undefined`
-* `data` is `null`
-* `data` is `NaN`
-
-Otherwise return `true`
+This function validates the patterns that return a correct date the following case
 
 ```js
-const isDefined = require('is-funcs/is-defined')
+// valid date
+console.log(new Date(string))
+```
 
-// false
-isDefined(undefined)
+Valid patterns are:
+* `YYYY/M/D` and `YYYY-M-D`
+* `YYYY/MM/DD` and `YYYY-MM-DD`
+* `YYYY/M/D H:M` and `YYYY-M-D H:M`
+* `YYYY/M/D HH:MM` and `YYYY-M-D HH:MM`
+* `YYYY/M/D H:M:S` and `YYYY-M-D H:M:S`
+* `YYYY/M/D HH:MM:SS` and `YYYY-M-D HH:MM:SS`
+* `YYYY-M-DTHH:MM:SSZ` and `YYYY-M-DTHH:MM:SS.LLLZ`
 
-// false
-isDefined(null)
+This function also test the date validity:
+* No 29 february if this is not a leap year
+* No 31 april
 
-// false
-isDefined(NaN)
+```js
+const isdatestring = require('is-funcs/is-date-string')
 
 // true
-isDefined(0)
+isdatestring('2009-01-31')
 
 // true
-isDefined(false)
+isdatestring('2009-12-31T12:34:56.789Z')
 
-// true
-isDefined('')
+// false, invalid iso date
+isdatestring('2009-12-3T12:34:56.789Z')
 
-// true
-isDefined(new Number(NaN))
+// false april has 30 days
+isdatestring('2015-04-31')
 
-// false
-isDefined(new Number(NaN), true)
+// false not a leap year
+isdatestring('2015-02-29')
 ```
 
 ---
 
-#### isFloat(data, [safe])
+### is-float(data)
 
 Check if `data` is a **Float Number**
 
 | Argument | Action |
 | :------ | :------- |
 | **data** | the tested `data` |
-| **[safe](#note)** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
 ```js
-const isFloat = require('is-funcs/is-float')
+const isfloat = require('is-funcs/is-float')
 
 // false
-isFloat('abc')
+isfloat('abc')
 
 // false
-isFloat(12)
+isfloat(12)
 
 // true
-isFloat(12.3)
-
-// true
-isFloat(new Number(12.3), true)
+isfloat(12.3)
 ```
 
 ---
 
-#### isFunction(data)
+### is-function(data)
 
 Check if `data` is a **Function**
 
 ```js
-const isFunction = require('is-funcs/is-function')
+const isfunction = require('is-funcs/is-function')
 
 // false
-isFunction(12.3)
+isfunction(12.3)
 
 // true
-isFunction(function() {})
+isfunction(function() {})
 ```
 
 ---
 
-#### isGt(data, than, [safe])
+### is-gt(data, than)
 
 Check if `data` is a greater than `than`
 
@@ -208,24 +228,20 @@ Check if `data` is a greater than `than`
 | :------ | :------- |
 | **data** | the tested `data` |
 | **than** | the reference `than` |
-| **[safe](#note)** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
 ```js
-const isGt = require('is-funcs/is-gt')
+const isgt = require('is-funcs/is-gt')
 
 // true
-isGt(2, 1)
+isgt(2, 1)
 
 // false
-isGt(2, 3)
-
-// true
-isGt(new Number(2), 1, true)
+isgt(2, 3)
 ```
 
 ---
 
-#### isGte(data, than, [safe])
+### is-gte(data, than)
 
 Check if `data` is a greater than or equal `than`
 
@@ -233,51 +249,43 @@ Check if `data` is a greater than or equal `than`
 | :------ | :------- |
 | **data** | the tested `data` |
 | **than** | the reference `than` |
-| **[safe](#note)** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
 ```js
-const isGte = require('is-funcs/is-gte')
+const isgte = require('is-funcs/is-gte')
 
 // true
-isGte(3, 2)
+isgte(3, 2)
 
 // true
-isGte(2, 2)
+isgte(2, 2)
 
 // false
-isGte(2, 3)
-
-// true
-isGte(new Number(2), 2, true)
+isgte(2, 3)
 ```
 
 ---
 
-#### isInteger(data, [safe])
+### is-integer(data)
 
 Check if `data` is an **Integer Number**
 
 | Argument | Action |
 | :------ | :------- |
 | **data** | the tested `data` |
-| **[safe](#note)** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
 ```js
-const isInteger = require('is-funcs/is-integer')
+const isinteger = require('is-funcs/is-integer')
 
 // true
-isGt(2)
+isinteger(2)
 
 // false
-isGt(2.34)
-
-// true
-isGt(new Number(2), true)
+isinteger(2.34)
 ```
 
 ---
 
-#### isLt(data, than, [safe])
+### is-lt(data, than)
 
 Check if `data` is a lower than `than`
 
@@ -285,24 +293,20 @@ Check if `data` is a lower than `than`
 | :------ | :------- |
 | **data** | the tested `data` |
 | **than** | the reference `than` |
-| **[safe](#note)** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
 ```js
-const isLt = require('is-funcs/is-lt')
+const islt = require('is-funcs/is-lt')
 
 // true
-isLt(1, 2)
+islt(1, 2)
 
 // false
-isLt(3, 2)
-
-// true
-isLt(new Number(1), 2, true)
+islt(3, 2)
 ```
 
 ---
 
-#### isLte(data, than, [safe])
+### is-lte(data, than)
 
 Check if `data` is a lower than or equal `than`
 
@@ -310,34 +314,29 @@ Check if `data` is a lower than or equal `than`
 | :------ | :------- |
 | **data** | the tested `data` |
 | **than** | the reference `than` |
-| **[safe](#note)** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
 ```js
-const isLte = require('is-funcs/is-lte')
+const islte = require('is-funcs/is-lte')
 
 // true
-isLte(1, 2)
+islte(1, 2)
 
 // true
-isLte(2, 2)
+islte(2, 2)
 
 // false
-isLte(3, 2)
-
-// true
-isLte(new Number(1), 2, true)
+islte(3, 2)
 ```
 
 ---
 
-#### isNaN(data, [safe])
+### is-nan(data)
 
 Check if `data` is a **real** `NaN` **Number**
 
 | Argument | Action |
 | :------ | :------- |
 | **data** | the tested `data` |
-| **[safe](#note)** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
 ```js
 const isnan = require('is-funcs/is-nan')
@@ -350,168 +349,146 @@ isnan('abc')
 
 // default isNaN return true
 isNaN('abc')
-
-// true
-isnan(new Number(NaN), true)
 ```
 
 ---
 
-#### isNode(data, [check])
+### is-node(data, [check])
 
-Check if `data` is a **Html Element** landed in the `document.body`
-
-* data nodeType must be 1
-* non visual element like `style` or `script` are excluded
+Check if `data` is a **Html Element** with a nodeType of **1**
 
 | Argument | Action |
 | :------ | :------- |
 | **data** | the tested `data` |
-| **check** | optional `check`, default to `true`. If `false`, the following tests are ignored |
+| **check** | optional `check`, default to `false`. If `true`, the following tests are done |
 
-If `check` is `false`
+If `check` is `true`
 
-* non visual element are ignored. Testing `style` or `script` nodes now return `true`
-* landed in `document.body` test is ignored
+* check if `data` is landed in the `document.body`
+* check if `data` is a visula element. Elements like `style` or `script` are excluded
 
 ```js
-const isNode = require('is-funcs/is-node')
+const isnode = require('is-funcs/is-node')
 
 // true
-isNode(document.querySelector('div'))
+isnode(document.querySelector('div'))
 
 // false
-isNode(document.createElement('div'))
+isnode(document.createElement('div'), true)
 
+var div = document.createElement('div')
+document.body.appendChild(div)
 // true
-isNode(document.createElement('script'), false)
+isnode(div, true)
 ```
 
 ---
 
-#### isNumber(data, [safe])
+### is-number(data)
 
 Check if `data` is a **Number**, not equals to `NaN`
 
 | Argument | Action |
 | :------ | :------- |
 | **data** | the tested `data` |
-| **[safe](#note)** | optional `safe`, default to `false`. If `true`, validate also the `new Number()` instance |
 
 ```js
-const isNumber = require('is-funcs/is-number')
+const isnumber = require('is-funcs/is-number')
 
 // false
-isNumber([1])
+isnumber([1])
 
 // true
-isNumber(1)
+isnumber(1)
 
 // true
-isNumber(2.34)
+isnumber(2.34)
 
 // false
-isNumber(NaN)
-
-// true
-isNumber(new Number(1), true)
+isnumber(NaN)
 ```
 
 ---
 
-#### isObject(data, [check], [safe])
+### is-object(data, [filled])
 
-Check if `data` is an **Plain Object** and has at least 1 key
+Check if `data` is an **Plain Object**
 
 | Argument | Action |
 | :------ | :------- |
 | **data** | the tested `data` |
-| **check** | optional `check`, default to `true`. If `false`, the keys count is not tested |
-| **[safe](#note)** | optional `safe`, default to `false`. If `true`, validate also the `new Object()` instance |
+| **filled** | optional `filled`, default to `false`. If `true`, check if `data` has at least 1 key |
 
-**note:** function `arguments` is evaluted as plain object. Set `safe` to `true` if you want exclude this possibility
+**note:** function `arguments` is evaluted as plain object.
 
 ```js
-const isObject = require('is-funcs/is-object')
+const isobject = require('is-funcs/is-object')
 
 // false
-isObject([1])
+isobject([1])
 
 // true
-isObject({a:1})
+isobject({a:1})
+
+// true
+isobject({})
 
 // false
-isObject({})
-
-// true
-isObject({}, false)
-
-// true
-isObject(new Object({a:1}), true, true)
+isObject({}, true)
 ```
 
 ---
 
-#### isRegexp(data)
+### is-regexp(data)
 
 Check if `data` is a **RegExp**
 
 
 ```js
-const isRegexp = require('is-funcs/is-regexp')
+const isregexp = require('is-funcs/is-regexp')
 
 // false
-isRegexp(true)
+isregexp(true)
 
 // false
-isRegexp('/./')
+isregexp('/./')
 
 // true
-isRegexp(/./)
+isregexp(/./)
 
 // true
-isRegexp(new RegExp('/./'))
+isregexp(new RegExp('/./'))
 ```
 
 ---
 
-#### isString(data, [check], [safe])
+### is-string(data, [filled])
 
 Check if `data` is an **String** and his trimmed length is > 0
 
 | Argument | Action |
 | :------ | :------- |
 | **data** | the tested `data` |
-| **check** | optional `check`, default to `true`. If `false`, trimmed length is not tested |
-| **[safe](#note)** | optional `safe`, default to `false`. If `true`, validate also the `new String()` instance |
+| **filled** | optional `filled`, default to `false`. If `true`, check if `data` trimmed length is > 0 |
 
 ```js
-const isString = require('is-funcs/is-string')
+const isstring = require('is-funcs/is-string')
 
 // false
-isString({a:1})
+isstring({a:1})
 
 // true
-isString('abc')
+isstring('abc')
 
-// false
-isString('')
+// true
+isstring('')
 
-// false
+// true
 isString('  ')
 
-// true
-isString('  ', false)
-
-// true
-isString(new String('abc'), true, true)
+// false
+isstring('  ', true)
 ```
-
-## Note
-
-The `safe` option, disabled by default, is here to cover extreme cases
-
-99.99% of the time, you don't need the `safe` option
 
 ## License
 

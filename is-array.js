@@ -1,6 +1,6 @@
-module.exports = function(data, check) {
+module.exports = function(data, filled) {
   if (Array.isArray(data) === false) return false
-  return check === undefined || check === true
+  return filled === true
     ? data.length > 0
     : true
 }

@@ -1,0 +1,32 @@
+const fn = require('../is-regexp')
+
+test('is-regexp', () => {
+  expect(fn(/./)).toBe(true)
+  var r1 = new RegExp('')
+  expect(fn(r1)).toBe(true)
+
+  var Foo = function() {}
+  Foo.prototype.test = function() {}
+  var f1 = new Foo()
+  expect(fn(f1)).toBe(false)
+  expect(fn(f1.test)).toBe(false)
+  expect(fn([])).toBe(false)
+  expect(fn([1])).toBe(false)
+  expect(fn(1)).toBe(false)
+  expect(fn(0)).toBe(false)
+  expect(fn('abc')).toBe(false)
+  expect(fn(true)).toBe(false)
+  expect(fn(false)).toBe(false)
+  expect(fn(null)).toBe(false)
+  expect(fn(undefined)).toBe(false)
+  expect(fn(Math)).toBe(false)
+  expect(fn(JSON)).toBe(false)
+  expect(fn(Set)).toBe(false)
+  expect(fn(Map)).toBe(false)
+  expect(fn(Int16Array)).toBe(false)
+  expect(fn(new Int16Array)).toBe(false)
+  expect(fn(Buffer.from('a'))).toBe(false)
+  expect(fn(function() {})).toBe(false)
+  expect(fn(new Date)).toBe(false)
+  expect(fn(arguments)).toBe(false)
+})

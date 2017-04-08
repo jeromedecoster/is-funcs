@@ -1,7 +1,6 @@
-const isNumber = require('./is-number')
-
-module.exports = function(data, safe) {
-  return isNumber(data, safe)
+module.exports = function(data) {
+  return typeof data === 'number'
+    && data === data
     && data !== Infinity
     && data !== -Infinity
     && data != (data | 0)
