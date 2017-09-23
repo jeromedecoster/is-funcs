@@ -1,8 +1,12 @@
-module.exports = function(data, check) {
-  var ok = typeof window === 'object'
-    && data instanceof window.Node
-    && data.nodeType == 1
-  return check === true
-    ? ok && document.body.contains(data) && data.getClientRects().length > 0
-    : ok
+/**
+ * Check if `data` is a Html Element with a nodeType of `1`
+ * @param {Node} data
+ * @return {boolean}
+ */
+module.exports = function(data) {
+  return (
+    typeof window === 'object' &&
+    data instanceof window.Node &&
+    data.nodeType == 1
+  )
 }

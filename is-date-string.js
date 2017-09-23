@@ -1,9 +1,14 @@
 const simple = /^(\d{4})([-\/])[ ]{0,1}(\d{1,2})([-\/])[ ]{0,1}(\d{1,2})$/
 const numend = /\d$/
-const hms    = /^(.*)([ T])(\d{1,2}):(\d{1,2})(Z?)(:(\d{1,2})(Z?))?$/
-const full   = /^(.*)\.(\d+)(Z?)$/
+const hms = /^(.*)([ T])(\d{1,2}):(\d{1,2})(Z?)(:(\d{1,2})(Z?))?$/
+const full = /^(.*)\.(\d+)(Z?)$/
 const isosim = /^\d{4}-\d{2}-\d{2}$/
 
+/**
+ * Check if `data` is a valid date string representation
+ * @param {string} data
+ * @return {boolean}
+ */
 function dateString(data) {
   if (typeof data !== 'string') return false
   data = data.trim()
@@ -52,7 +57,15 @@ function dateString(data) {
       // mon day must be 2 digits and sep must be hyphen
       if (isosim.exec(prev) === null) return false
     }
-    return dateString(prev) && hou >= 0 && hou <= 23 && min >= 0 && min <= 59 && sec >= 0 && sec <= 59
+    return (
+      dateString(prev) &&
+      hou >= 0 &&
+      hou <= 23 &&
+      min >= 0 &&
+      min <= 59 &&
+      sec >= 0 &&
+      sec <= 59
+    )
   }
 
   // full: 2009-12-31T12:34:56.789Z

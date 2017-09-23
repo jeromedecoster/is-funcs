@@ -91,6 +91,6 @@ test('is-integer', () => {
   expect(fn(Math)).toBe(false)
   expect(fn(JSON)).toBe(false)
   expect(fn(function() {})).toBe(false)
-  expect(fn(new Date)).toBe(false)
+  expect(fn(new Date())).toBe(false)
   expect(fn(arguments)).toBe(false)
 })

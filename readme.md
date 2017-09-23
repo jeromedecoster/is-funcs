@@ -12,7 +12,7 @@ Package [on npm](https://www.npmjs.com/package/is-funcs)
 
 ## API
 
-* [is-array](#is-arraydata-filled)
+* [is-array-filled](#is-array-filleddata)
 * [is-boolean](#is-booleandata)
 * [is-buffer](#is-bufferdata)
 * [is-date](#is-datedata)
@@ -25,35 +25,34 @@ Package [on npm](https://www.npmjs.com/package/is-funcs)
 * [is-lt](#is-ltdata-than)
 * [is-lte](#is-ltedata-than)
 * [is-nan](#is-nandata)
-* [is-node](#is-nodedata-check)
-* [is-number](#is-numberdata)
-* [is-object](#is-objectdata-filled)
+* [is-node](#is-nodedata)
+* [is-node-landed](#is-node-landeddata)
+* [is-number-defined](#is-number-defineddata)
+* [is-number-string](#is-number-stringdata)
+* [is-object](#is-objectdata)
+* [is-plain-object](#is-plain-objectdata)
 * [is-regexp](#is-regexpdata)
-* [is-string](#is-stringdata-filled)
+* [is-string-filled](#is-string-filleddata)
 
-### is-array(data, [filled])
+### is-array-filled(data)
 
-Check if `data` is an **Array**
+Check if `data` is an **Array** and is length is > 0
 
 | Argument | Action |
 | :------ | :------- |
 | **data** | the tested `data` |
-| **filled** | optional `filled`, default to `false`. If `true`, check length is > 0 |
 
 ```js
-const isarray = require('is-funcs/is-array')
+const isArrayFilled = require('is-funcs/is-array-filled')
 
 // false
-isarray({a:1})
+isArrayFilled({a:1})
 
 // true
-isarray(['a'])
-
-// true
-isarray([])
+isArrayFilled(['a'])
 
 // false
-isarray([], true)
+isArrayFilled([])
 ```
 
 ---
@@ -67,16 +66,16 @@ Check if `data` is a **Boolean**
 | **data** | the tested `data` |
 
 ```js
-const isboolean = require('is-funcs/is-boolean')
+const isBoolean = require('is-funcs/is-boolean')
 
 // false
-isboolean({a:1})
+isBoolean({a:1})
 
 // true
-isboolean(true)
+isBoolean(true)
 
 // true
-isboolean(false)
+isBoolean(false)
 ```
 
 ---
@@ -90,42 +89,42 @@ Check if `data` is a node **Buffer**
 | **data** | the tested `data` |
 
 ```js
-const isbuffer = require('is-funcs/is-buffer')
+const isBuffer = require('is-funcs/is-buffer')
 
 // false
-isbuffer([1])
+isBuffer([1])
 
 // false
-isbuffer(Buffer)
+isBuffer(Buffer)
 
 // true
-isbuffer(Buffer.from('abc'))
+isBuffer(Buffer.from('abc'))
 ```
 
 ---
 
 ### is-date(data)
 
-Check if `data` is a valid instance of `new Date`
+Check if `data` is a **valid** instance of `new Date`
 
 | Argument | Action |
 | :------ | :------- |
 | **data** | the tested `data` |
 
 ```js
-const isdate = require('is-funcs/is-date')
+const isDate = require('is-funcs/is-date')
 
 // true
-isdate(new Date())
+isDate(new Date())
 
 // false, invalid date
-isdate(new Date('-'))
+isDate(new Date('-'))
 
 // false
-isdate('2000-01-01')
+isDate('2000-01-01')
 
 // false
-isdate(2010)
+isDate(2010)
 ```
 
 ---
@@ -140,7 +139,7 @@ Check if `data` is a valid date string representation
 
 Date string validation is a nightmare. The browsers have [differents behaviors](http://dygraphs.com/date-formats.html)
 
-This function validates the patterns that return a correct date the following case
+This function validates the patterns that return a correct date in the following case
 
 ```js
 // valid date
@@ -161,22 +160,22 @@ This function also test the date validity:
 * No 31 april
 
 ```js
-const isdatestring = require('is-funcs/is-date-string')
+const isDateString = require('is-funcs/is-date-string')
 
 // true
-isdatestring('2009-01-31')
+isDateString('2009-01-31')
 
 // true
-isdatestring('2009-12-31T12:34:56.789Z')
+isDateString('2009-12-31T12:34:56.789Z')
 
-// false, invalid iso date
-isdatestring('2009-12-3T12:34:56.789Z')
+// false, because invalid iso date
+isDateString('2009-12-3T12:34:56.789Z')
 
-// false april has 30 days
-isdatestring('2015-04-31')
+// false, because april has 30 days
+isDateString('2015-04-31')
 
-// false not a leap year
-isdatestring('2015-02-29')
+// false, because 2015 is not a leap year
+isDateString('2015-02-29')
 ```
 
 ---
@@ -190,32 +189,49 @@ Check if `data` is a **Float Number**
 | **data** | the tested `data` |
 
 ```js
-const isfloat = require('is-funcs/is-float')
+const isFloat = require('is-funcs/is-float')
 
 // false
-isfloat('abc')
+isFloat('abc')
 
 // false
-isfloat(12)
+isFloat(12)
 
 // true
-isfloat(12.3)
+isFloat(12.3)
+
+/*
+  Attention: Javascript returns wrong results with extreme values
+*/
+// true
+isFloat(12345678900)
+
+// false
+isFloat(1000.00000000000001)
 ```
 
 ---
 
 ### is-function(data)
 
-Check if `data` is a **Function**
+Check if `data` is a **Function** defined by the developper. Standard built-in objects are excluded
+
+Use it if you really need this **full** test, otherwise just write `typeof data === 'function'`
 
 ```js
-const isfunction = require('is-funcs/is-function')
-
-// false
-isfunction(12.3)
+const isFunction = require('is-funcs/is-function')
 
 // true
-isfunction(function() {})
+isFunction(function() {})
+
+// false
+isFunction(Function)
+
+// false
+isFunction(Promise)
+
+// false
+isFunction(isNaN)
 ```
 
 ---
@@ -230,20 +246,20 @@ Check if `data` is a greater than `than`
 | **than** | the reference `than` |
 
 ```js
-const isgt = require('is-funcs/is-gt')
+const isGt = require('is-funcs/is-gt')
 
 // true
-isgt(2, 1)
+isGt(2, 1)
 
 // false
-isgt(2, 3)
+isGt(2, 3)
 ```
 
 ---
 
 ### is-gte(data, than)
 
-Check if `data` is a greater than or equal `than`
+Check if `data` is a greater or equal than `than`
 
 | Argument | Action |
 | :------ | :------- |
@@ -251,16 +267,16 @@ Check if `data` is a greater than or equal `than`
 | **than** | the reference `than` |
 
 ```js
-const isgte = require('is-funcs/is-gte')
+const isGte = require('is-funcs/is-gte')
 
 // true
-isgte(3, 2)
+isGte(3, 2)
 
 // true
-isgte(2, 2)
+isGte(2, 2)
 
 // false
-isgte(2, 3)
+isGte(2, 3)
 ```
 
 ---
@@ -274,13 +290,22 @@ Check if `data` is an **Integer Number**
 | **data** | the tested `data` |
 
 ```js
-const isinteger = require('is-funcs/is-integer')
+const isInteger = require('is-funcs/is-integer')
 
 // true
-isinteger(2)
+isInteger(2)
 
 // false
-isinteger(2.34)
+isInteger(2.34)
+
+/*
+  Attention: Javascript returns wrong results with extreme values
+*/
+// false
+isInteger(12345678900)
+
+// true
+isInteger(100.000000000000001)
 ```
 
 ---
@@ -295,20 +320,20 @@ Check if `data` is a lower than `than`
 | **than** | the reference `than` |
 
 ```js
-const islt = require('is-funcs/is-lt')
+const isLt = require('is-funcs/is-lt')
 
 // true
-islt(1, 2)
+isLt(1, 2)
 
 // false
-islt(3, 2)
+isLt(3, 2)
 ```
 
 ---
 
 ### is-lte(data, than)
 
-Check if `data` is a lower than or equal `than`
+Check if `data` is a lower or equal than `than`
 
 | Argument | Action |
 | :------ | :------- |
@@ -316,16 +341,16 @@ Check if `data` is a lower than or equal `than`
 | **than** | the reference `than` |
 
 ```js
-const islte = require('is-funcs/is-lte')
+const isLte = require('is-funcs/is-lte')
 
 // true
-islte(1, 2)
+isLte(1, 2)
 
 // true
-islte(2, 2)
+isLte(2, 2)
 
 // false
-islte(3, 2)
+isLte(3, 2)
 ```
 
 ---
@@ -344,6 +369,9 @@ const isnan = require('is-funcs/is-nan')
 // true
 isnan(NaN)
 
+// true
+isnan(-NaN)
+
 // false
 isnan('abc')
 
@@ -353,88 +381,184 @@ isNaN('abc')
 
 ---
 
-### is-node(data, [check])
+### is-node(data)
 
 Check if `data` is a **Html Element** with a nodeType of **1**
 
 | Argument | Action |
 | :------ | :------- |
 | **data** | the tested `data` |
-| **check** | optional `check`, default to `false`. If `true`, the following tests are done |
-
-If `check` is `true`
-
-* check if `data` is landed in the `document.body`
-* check if `data` is a visula element. Elements like `style` or `script` are excluded
 
 ```js
-const isnode = require('is-funcs/is-node')
+const isNode = require('is-funcs/is-node')
 
 // true
-isnode(document.querySelector('div'))
+isNode(document.querySelector('div'))
+
+// true
+isNode(document.createElement('div'))
+```
+
+---
+
+### is-node-landed(data)
+
+Check if `data` is a *visual* **Html Element** with a nodeType of **1** landed in the `document.body`
+
+Elements like `style` or `script` are excluded
+
+| Argument | Action |
+| :------ | :------- |
+| **data** | the tested `data` |
+
+```js
+const isNodeLanded = require('is-funcs/is-node-landed')
+
+// true
+isNodeLanded(document.querySelector('div'))
 
 // false
-isnode(document.createElement('div'), true)
-
 var div = document.createElement('div')
+isNodeLanded(div)
+
+// true
 document.body.appendChild(div)
-// true
-isnode(div, true)
+isNodeLanded(div)
 ```
 
 ---
 
-### is-number(data)
+### is-number-defined(data)
 
-Check if `data` is a **Number**, not equals to `NaN`
+Check if `data` is a **defined Number**, not equals to `NaN`
 
 | Argument | Action |
 | :------ | :------- |
 | **data** | the tested `data` |
 
 ```js
-const isnumber = require('is-funcs/is-number')
-
-// false
-isnumber([1])
+const isNumberDefined = require('is-funcs/is-number-defined')
 
 // true
-isnumber(1)
+isNumberDefined(1)
 
 // true
-isnumber(2.34)
+isNumberDefined(2.34)
 
 // false
-isnumber(NaN)
+isNumberDefined(NaN)
+
+// false
+isNumberDefined([1])
 ```
 
 ---
 
-### is-object(data, [filled])
+### is-number-string(data)
 
-Check if `data` is an **Plain Object**
+Check if `data` is a valid number string representation
 
 | Argument | Action |
 | :------ | :------- |
 | **data** | the tested `data` |
-| **filled** | optional `filled`, default to `false`. If `true`, check if `data` has at least 1 key |
 
-**note:** function `arguments` is evaluted as plain object.
+This function validates the patterns that return a correct number in the following case
 
 ```js
-const isobject = require('is-funcs/is-object')
+// valid number
+console.log(parseFloat(string))
+```
 
-// false
-isobject([1])
+```js
+const isNumberString = require('is-funcs/is-number-string')
 
 // true
-isobject({a:1})
+isNumberString('1')
 
 // true
-isobject({})
+isNumberString('.34')
+
+// true
+isNumberString(' -2.34 ')
+
+// true
+isNumberString('NaN')
 
 // false
-isObject({}, true)
+isNumberString('1.23.45')
+
+// false
+isNumberString('abc')
+
+// false
+isNumberString(12.3)
+```
+
+---
+
+### is-object(data)
+
+Simplest and fastest way to check if `data` is an **Object**
+
+We just wants to know if `data` is **an object where we can define a property, excluding Functions**
+
+Technically `functions` should be `true` but what we want here is just a **not so exact but quick** test to know if `data` is like a **Plain Object**
+
+See [is-plain-object](#is-plain-objectdata) for stricter but slower object test
+
+| Argument | Action |
+| :------ | :------- |
+| **data** | the tested `data` |
+
+```js
+const isObject = require('is-funcs/is-object')
+
+// true
+isObject({})
+
+// true
+isObject([])
+
+// true
+isObject(arguments)
+
+// true, typeof Math JSON Reflect Intl and WebAssembly is "object"
+isObject(JSON)
+
+// false
+isObject(Number)
+
+// false
+isObject(function() {})
+```
+
+---
+
+### is-plain-object(data)
+
+Check if `data` is a **Plain Object**
+
+| Argument | Action |
+| :------ | :------- |
+| **data** | the tested `data` |
+
+```js
+const isPlainObject = require('is-funcs/is-plain-object')
+
+// true
+isPlainObject({a:1})
+
+// true
+isPlainObject({})
+
+// false
+isPlainObject(arguments)
+
+// false
+isPlainObject([1])
+
+// false
+isPlainObject(JSON)
 ```
 
 ---
@@ -445,49 +569,50 @@ Check if `data` is a **RegExp**
 
 
 ```js
-const isregexp = require('is-funcs/is-regexp')
+const isRegexp = require('is-funcs/is-regexp')
 
 // false
-isregexp(true)
+isRegexp(true)
 
 // false
-isregexp('/./')
+isRegexp('/./')
 
 // true
-isregexp(/./)
+isRegexp(/./)
 
 // true
-isregexp(new RegExp('/./'))
+isRegexp(new RegExp('/./'))
 ```
 
 ---
 
-### is-string(data, [filled])
+### is-string-filled(data)
 
 Check if `data` is an **String** and his trimmed length is > 0
+
+All possible unicode blank chars are trimmed
 
 | Argument | Action |
 | :------ | :------- |
 | **data** | the tested `data` |
-| **filled** | optional `filled`, default to `false`. If `true`, check if `data` trimmed length is > 0 |
 
 ```js
-const isstring = require('is-funcs/is-string')
+const isStringFilled = require('is-funcs/is-string-filled')
+
+// true
+isStringFilled('abc')
 
 // false
-isstring({a:1})
-
-// true
-isstring('abc')
-
-// true
-isstring('')
-
-// true
-isString('  ')
+isStringFilled('')
 
 // false
-isstring('  ', true)
+isStringFilled('  ')
+
+// false
+isStringFilled(' \u0020 \u180E \u200B ')
+
+// false
+isStringFilled({a:1})
 ```
 
 ## License

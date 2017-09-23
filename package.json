@@ -1,14 +1,14 @@
 {
   "name": "is-funcs",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "A very limited subset of is-* functions I use every day",
   "repository": "jeromedecoster/is-funcs",
   "files": [
-    "is-array.js",
-    "is-buffer.js",
+    "is-array-filled.js",
     "is-boolean.js",
-    "is-date.js",
+    "is-buffer.js",
     "is-date-string.js",
+    "is-date.js",
     "is-float.js",
     "is-function.js",
     "is-gt.js",
@@ -17,20 +17,23 @@
     "is-lt.js",
     "is-lte.js",
     "is-nan.js",
+    "is-node-landed.js",
     "is-node.js",
-    "is-number.js",
+    "is-number-defined.js",
+    "is-number-string.js",
     "is-object.js",
+    "is-plain-object.js",
     "is-regexp.js",
-    "is-string.js"
+    "is-string-filled.js"
   ],
   "keywords": [
     "type",
     "check",
-    "is-array",
-    "is-buffer",
+    "is-array-filled",
     "is-boolean",
-    "is-date",
+    "is-buffer",
     "is-date-string",
+    "is-date",
     "is-float",
     "is-function",
     "is-gt",
@@ -39,11 +42,14 @@
     "is-lt",
     "is-lte",
     "is-nan",
+    "is-node-landed",
     "is-node",
-    "is-number",
+    "is-number-defined",
+    "is-number-string",
     "is-object",
+    "is-plain-object",
     "is-regexp",
-    "is-string"
+    "is-string-filled"
   ],
   "author": {
     "name": "Jérôme Decoster",
@@ -58,8 +64,9 @@
     "test": "jest --watch --runInBand"
   },
   "devDependencies": {
-    "budo": "^9.4.7",
-    "jest": "^19.0.2",
-    "tape": "^4.6.3"
-  }
+    "budo": "^10.0.4",
+    "jest": "^21.1.0",
+    "tape": "^4.8.0"
+  },
+  "dependencies": {}
 }

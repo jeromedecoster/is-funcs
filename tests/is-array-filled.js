@@ -1,14 +1,19 @@
-const fn = require('../is-array')
+const fn = require('../is-array-filled')
 
-test('is-array default behavior', () => {
-  expect(fn(new Array())).toBe(true)
+test('is-array-filled', () => {
+  expect(fn(new Array())).toBe(false)
   expect(fn(new Array(1))).toBe(true)
-  expect(fn([])).toBe(true)
+  expect(fn([])).toBe(false)
   expect(fn([1])).toBe(true)
 
+  expect(fn(Array)).toBe(false)
+  expect(fn(new Int16Array(2))).toBe(false)
+  expect(fn(new ArrayBuffer(2))).toBe(false)
   expect(fn({})).toBe(false)
+  expect(fn({ a: 1 })).toBe(false)
   expect(fn(Object.create(null))).toBe(false)
   expect(fn('abc')).toBe(false)
+  expect(fn(-1)).toBe(false)
   expect(fn(0)).toBe(false)
   expect(fn(1)).toBe(false)
   expect(fn(true)).toBe(false)
@@ -20,10 +25,10 @@ test('is-array default behavior', () => {
   expect(fn(/./)).toBe(false)
   expect(fn(Math)).toBe(false)
   expect(fn(function() {})).toBe(false)
-  expect(fn(new Date)).toBe(false)
+  expect(fn(new Date())).toBe(false)
   expect(fn(arguments)).toBe(false)
 })
-
+/*
 test('is-array check filled', () => {
   expect(fn(new Array(1), true)).toBe(true)
   expect(fn([1], true)).toBe(true)
@@ -45,6 +50,7 @@ test('is-array check filled', () => {
   expect(fn(/./, true)).toBe(false)
   expect(fn(Math, true)).toBe(false)
   expect(fn(function() {}, true)).toBe(false)
-  expect(fn(new Date, true)).toBe(false)
+  expect(fn(new Date(), true)).toBe(false)
   expect(fn(arguments, true)).toBe(false)
 })
+*/

@@ -5,7 +5,6 @@ test('is-date-string', () => {
   // http://momentjs.com/docs/#/parsing/
   // https://github.com/litejs/date-format-lite/blob/master/tests/index.js
   // https://github.com/litejs/date-format-lite/blob/master/index.js
-
   expect(fn(2009)).toBe(false)
   expect(fn([2009])).toBe(false)
 
@@ -55,7 +54,6 @@ test('is-date-string', () => {
   // more than one space is not valid
   expect(fn(' 2009-  2-  1 ')).toBe(false)
   expect(fn(' 2009 -   2 -   1 ')).toBe(false)
-
 
   // month + day + year (valid but confusing, my opinion: return false)
   expect(fn('12-31-2009')).toBe(false)
@@ -121,12 +119,9 @@ test('is-date-string', () => {
   expect(fn('2009-12-31T12:60:56.789Z')).toBe(false)
   expect(fn('2009-12-31T12:34:60.Z')).toBe(false)
 
-
-
-
   // Below, some tests on Chrome 57 and Firefox 52
 
-
+  /*
   // year
   // expect(date('2009', 2009)).toBe(false) // invalid
 
@@ -144,7 +139,7 @@ test('is-date-string', () => {
   expect(date('2009/12/31', 2009, 12, 31)).toBe(true)
   expect(date('2009/2/1', 2009, 2, 1)).toBe(true)
   // expect(date('2009.12.31', 2009, 12, 31)).toBe(true)  // valid in Chrome but not in Firefox
-  expect(date('2009-12-31', 2009, 12, 31, 1)).toBe(true)  // confusing add 1 hour, but work
+  expect(date('2009-12-31', 2009, 12, 31, 1)).toBe(true) // confusing add 1 hour, but work
   expect(date('2009/12/31', 2009, 12, 31)).toBe(true)
   // expect(date('2009/13/31', 2009, 12, 1)).toBe(false)  // invalid
   // expect(date('2009-13/31', 2009, 12, 1)).toBe(false)  // invalid
@@ -201,24 +196,40 @@ test('is-date-string', () => {
   // expect(date('2009/12/31 12:34:56.999 UTC', 2009, 12, 31, 13, 34, 56, 999)).toBe(true)   // valid in Chrome but not in Firefox
   // expect(date('2009/12/31 12:34:56.999   GMT', 2009, 12, 31, 13, 34, 56, 999)).toBe(true) // valid in Chrome but not in Firefox
   // expect(date('2009/12/31 12:34:56.999A', 2009, 12, 31, 13, 34, 56, 999)).toBe(false) // invalid
+  */
 })
 
-function date(iso, year, month = 1, day = 1, hour = 0, minute = 0, second = 0, millisecond = 0) {
+function date(
+  iso,
+  year,
+  month = 1,
+  day = 1,
+  hour = 0,
+  minute = 0,
+  second = 0,
+  millisecond = 0
+) {
   var d = new Date(iso)
-  var ok = d.getFullYear() === year
-    && d.getMonth() === month - 1
-    && d.getDate() === day
-    && d.getHours() === hour
-    && d.getMinutes() === minute
-    && d.getSeconds() === second
-    && d.getMilliseconds() === millisecond
+  var ok =
+    d.getFullYear() === year &&
+    d.getMonth() === month - 1 &&
+    d.getDate() === day &&
+    d.getHours() === hour &&
+    d.getMinutes() === minute &&
+    d.getSeconds() === second &&
+    d.getMilliseconds() === millisecond
   if (!ok) console.log('d:', d)
-  if (d.getFullYear() !== year)   console.log('year:', d.getFullYear(), '<->', year)
-  if (d.getMonth() !== month - 1) console.log('month:', d.getMonth(), '<->', month - 1)
+  if (d.getFullYear() !== year)
+    console.log('year:', d.getFullYear(), '<->', year)
+  if (d.getMonth() !== month - 1)
+    console.log('month:', d.getMonth(), '<->', month - 1)
   if (d.getDate() !== day) console.log('day:', d.getDate(), '<->', day)
   if (d.getHours() !== hour) console.log('hour:', d.getHours(), '<->', hour)
-  if (d.getMinutes() !== minute) console.log('minute:', d.getMinutes(), '<->', minute)
-  if (d.getSeconds() !== second) console.log('second:', d.getSeconds(), '<->', second)
-  if (d.getMilliseconds() !== millisecond) console.log('millisecond:', d.getMilliseconds(), '<->', millisecond)
+  if (d.getMinutes() !== minute)
+    console.log('minute:', d.getMinutes(), '<->', minute)
+  if (d.getSeconds() !== second)
+    console.log('second:', d.getSeconds(), '<->', second)
+  if (d.getMilliseconds() !== millisecond)
+    console.log('millisecond:', d.getMilliseconds(), '<->', millisecond)
   return ok
 }

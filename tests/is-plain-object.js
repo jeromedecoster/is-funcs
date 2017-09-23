@@ -1,9 +1,11 @@
-const fn = require('../is-regexp')
+const fn = require('../is-plain-object')
 
-test('is-regexp', () => {
-  expect(fn(/./)).toBe(true)
-  var r1 = new RegExp('')
-  expect(fn(r1)).toBe(true)
+test('is-plain-object', () => {
+  expect(fn({})).toBe(true)
+  expect(fn({ a: 1 })).toBe(true)
+  expect(fn(new Object())).toBe(true)
+  expect(fn(Object.create(null))).toBe(true)
+  expect(fn(arguments)).toBe(false)
 
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects
   expect(fn(Infinity)).toBe(false)
@@ -67,8 +69,6 @@ test('is-regexp', () => {
   var f1 = new Foo()
   expect(fn(f1)).toBe(false)
   expect(fn(f1.test)).toBe(false)
-  expect(fn({})).toBe(false)
-  expect(fn({ a: 1 })).toBe(false)
   expect(fn([])).toBe(false)
   expect(fn([1])).toBe(false)
   expect(fn(1)).toBe(false)
@@ -76,9 +76,25 @@ test('is-regexp', () => {
   expect(fn('abc')).toBe(false)
   expect(fn(true)).toBe(false)
   expect(fn(false)).toBe(false)
+  expect(fn(/./)).toBe(false)
   expect(fn(new Int16Array())).toBe(false)
   expect(fn(Buffer.from('a'))).toBe(false)
   expect(fn(function() {})).toBe(false)
   expect(fn(new Date())).toBe(false)
-  expect(fn(arguments)).toBe(false)
 })
+
+/*
+test('is-object filled', () => {
+  expect(fn({a:1}, true)).toBe(true)
+  var o1 = new Object
+  o1.a = 1
+  expect(fn(o1, true)).toBe(true)
+  var o2 = Object.create(null)
+  o2.a = 1
+  expect(fn(o2, true)).toBe(true)
+
+  expect(fn({}, true)).toBe(false)
+  expect(fn(new Object, true)).toBe(false)
+  expect(fn(Object.create(null), true)).toBe(false)
+})
+*/

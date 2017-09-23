@@ -8,7 +8,7 @@ test('is-boolean', () => {
 
   expect(fn([])).toBe(false)
   expect(fn([1])).toBe(false)
-  expect(fn({a:1})).toBe(false)
+  expect(fn({ a: 1 })).toBe(false)
   expect(fn(Object.create(null))).toBe(false)
   expect(fn('abc')).toBe(false)
   expect(fn(0)).toBe(false)
@@ -20,6 +20,6 @@ test('is-boolean', () => {
   expect(fn(/./)).toBe(false)
   expect(fn(Math)).toBe(false)
   expect(fn(function() {})).toBe(false)
-  expect(fn(new Date)).toBe(false)
+  expect(fn(new Date())).toBe(false)
   expect(fn(arguments)).toBe(false)
 })

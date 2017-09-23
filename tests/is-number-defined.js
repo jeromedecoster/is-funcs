@@ -1,14 +1,17 @@
-const fn = require('../is-number')
+const fn = require('../is-number-defined')
 
-test('is-number', () => {
+test('is-number-defined', () => {
+  expect(fn(-Infinity)).toBe(true)
   expect(fn(-1.1)).toBe(true)
   expect(fn(-1)).toBe(true)
+  expect(fn(-0)).toBe(true)
   expect(fn(0)).toBe(true)
   expect(fn(1)).toBe(true)
   expect(fn(1.1)).toBe(true)
   expect(fn(Infinity)).toBe(true)
 
   expect(fn(NaN)).toBe(false)
+  expect(fn(-NaN)).toBe(false)
   expect(fn(new Number(12))).toBe(false)
 
   expect(fn({})).toBe(false)
@@ -22,6 +25,6 @@ test('is-number', () => {
   expect(fn(Math)).toBe(false)
   expect(fn(JSON)).toBe(false)
   expect(fn(function() {})).toBe(false)
-  expect(fn(new Date)).toBe(false)
+  expect(fn(new Date())).toBe(false)
   expect(fn(arguments)).toBe(false)
 })
